@@ -1,20 +1,25 @@
+import React from 'react';
+
 import './App.css';
-import { CircleLayout } from './circle-layout';
-import { RedPandaRenderer } from './item-renderers/RedPandaRenderer';
+
+import Content from './Content';
+import {
+  LayoutContextProvider,
+  ImageStoreProvider,
+  FriendListProvider,
+} from './models';
 
 function App() {
   return (
-    <div className='App'>
-      <CircleLayout
-        circles={[
-          { numberOfItems: 6 },
-          { numberOfItems: 12 },
-          { numberOfItems: 12 },
-          { numberOfItems: 12 },
-        ]}
-        renderItem={RedPandaRenderer}
-      />
-    </div>
+    <FriendListProvider>
+      <ImageStoreProvider>
+        <LayoutContextProvider>
+          <div className='App'>
+            <Content />
+          </div>
+        </LayoutContextProvider>
+      </ImageStoreProvider>
+    </FriendListProvider>
   );
 }
 

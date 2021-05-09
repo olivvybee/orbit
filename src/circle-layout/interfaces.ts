@@ -1,6 +1,4 @@
-import React from 'react';
-
-import { Renderer } from '../item-renderers/interfaces';
+import { Friend } from '../models';
 
 export interface CircleData {
   numberOfItems: number;
@@ -8,7 +6,6 @@ export interface CircleData {
 
 export interface CircleLayoutProps {
   circles: CircleData[];
-  renderItem: Renderer;
 }
 
 export interface CircleLayout {
@@ -18,7 +15,6 @@ export interface CircleLayout {
 }
 
 export interface CircleProps {
-  renderItem: Renderer;
   layout: CircleLayout;
-  index: number;
+  items: Friend[];
 }

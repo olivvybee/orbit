@@ -1,6 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import { Circle as CanvasCircle, Group } from 'react-konva';
 import useImage from 'use-image';
+import { ImageStore } from '../models/ImageStore';
 
 import { CANVAS_SIZE } from './constants';
 
@@ -15,13 +16,7 @@ const getCoordinates = (position: number, radius: number) => {
   };
 };
 
-// const clipFunc =
-
-const Circle: React.FC<CircleProps> = ({
-  renderItem,
-  layout,
-  index: circleIndex,
-}) => {
+const Circle: React.FC<CircleProps> = ({ layout, items }) => {
   const { radius, itemRadius, itemPositions } = layout;
 
   return (
@@ -33,15 +28,39 @@ const Circle: React.FC<CircleProps> = ({
         stroke='white'
       />
 
-      {itemPositions.map((position, index) => {
+      {items.map((item, index) => {
+        const position = itemPositions[index];
         const { x, y } = getCoordinates(position, radius);
-        return renderItem({
+
+        const baseProps = {
+          radius: itemRadius,
           x,
           y,
-          radius: itemRadius,
-          index,
-          circleIndex,
-        });
+          stroke: 'black',
+        };
+
+        const image = item.avatarImg;
+
+        if (!image || !image.naturalWidth) {
+          return <CanvasCircle {...baseProps} fill='seagreen' />;
+        }
+
+        const scaleX = (2 * itemRadius) / image.naturalWidth;
+        const scaleY = (2 * itemRadius) / image.naturalHeight;
+
+        return (
+          <CanvasCircle
+            radius={itemRadius}
+            fillPatternImage={image}
+            fillPatternOffsetX={itemRadius}
+            fillPatternOffsetY={itemRadius}
+            fillPatternScaleX={scaleX}
+            fillPatternScaleY={scaleY}
+            stroke='black'
+            x={x}
+            y={y}
+          />
+        );
       })}
     </>
   );
