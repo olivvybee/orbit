@@ -3,11 +3,11 @@ import { Friend } from '../models';
 import { DataProvider } from './interfaces';
 
 export const RedPandaDataProvider: DataProvider = async () => {
-  const data: Friend[] = [];
+  const friends: Friend[] = [];
   const now = new Date();
 
   for (let i = 0; i < 100; i++) {
-    data.push({
+    friends.push({
       id: i.toString(),
       username: `red-panda-${i}`,
       avatarUrl: `/red-panda.jpg?${now.getTime()}`,
@@ -15,5 +15,8 @@ export const RedPandaDataProvider: DataProvider = async () => {
     });
   }
 
-  return data;
+  return {
+    ownAvatarUrl: `/red-panda-flipped.jpg?${now.getTime()}`,
+    friends,
+  };
 };

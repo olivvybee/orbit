@@ -8,13 +8,25 @@ export const DataFetcher: React.FC<DataFetcherProps> = ({
   username,
   dataProvider,
 }) => {
-  const { setFriends } = useContext(FriendList);
+  const { setOwnAvatarImg, setFriends } = useContext(FriendList);
 
   useEffect(() => {
     const fetch = async () => {
-      const friends = await dataProvider(username);
-      if (friends) {
+      const { ownAvatarUrl, friends } = await dataProvider(username);
+      if (ownAvatarUrl && friends) {
         const promises: Promise<void>[] = [];
+
+        const ownAvatarImg = document.createElement('img');
+        ownAvatarImg.src = ownAvatarUrl;
+        const promise = new Promise<void>((resolve) => {
+          if (ownAvatarImg.naturalWidth > 0) {
+            console.log('resolving, already loaded');
+            resolve();
+          }
+          ownAvatarImg.onload = () => resolve();
+        });
+        promises.push(promise);
+
         const friendsWithImages = friends.map((friend) => {
           const imageElement = document.createElement('img');
           imageElement.src = friend.avatarUrl;
@@ -29,8 +41,10 @@ export const DataFetcher: React.FC<DataFetcherProps> = ({
 
           return { ...friend, avatarImg: imageElement };
         });
+
         await Promise.all(promises);
 
+        setOwnAvatarImg(ownAvatarImg);
         setFriends(friendsWithImages);
       }
     };
