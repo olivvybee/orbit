@@ -8,49 +8,62 @@ export const DataFetcher: React.FC<DataFetcherProps> = ({
   username,
   dataProvider,
 }) => {
-  const { setOwnAvatarImg, setFriends } = useContext(FriendList);
+  const { setOwnAvatarImg, setFriends, setError } = useContext(FriendList);
 
   useEffect(() => {
     const fetch = async () => {
-      const { ownAvatarUrl, friends } = await dataProvider(username);
-      if (ownAvatarUrl && friends) {
-        const promises: Promise<void>[] = [];
+      try {
+        const { ownData, friends } = await dataProvider(username);
 
-        const ownAvatarImg = document.createElement('img');
-        ownAvatarImg.src = ownAvatarUrl;
-        const promise = new Promise<void>((resolve) => {
-          if (ownAvatarImg.naturalWidth > 0) {
-            console.log('resolving, already loaded');
-            resolve();
-          }
-          ownAvatarImg.onload = () => resolve();
-        });
-        promises.push(promise);
+        const ownAvatarUrl = ownData.avatarUrl;
 
-        const friendsWithImages = friends.map((friend) => {
-          const imageElement = document.createElement('img');
-          imageElement.src = friend.avatarUrl;
+        if (ownAvatarUrl && friends) {
+          const promises: Promise<void>[] = [];
+
+          const ownAvatarImg = document.createElement('img');
+          ownAvatarImg.src = ownAvatarUrl;
           const promise = new Promise<void>((resolve) => {
-            if (imageElement.naturalWidth > 0) {
-              console.log('resolving, already loaded');
+            if (ownAvatarImg.naturalWidth > 0) {
               resolve();
             }
-            imageElement.onload = () => resolve();
+            ownAvatarImg.onload = () => resolve();
           });
           promises.push(promise);
 
-          return { ...friend, avatarImg: imageElement };
-        });
+          const friendsWithImages = friends.map((friend) => {
+            const imageElement = document.createElement('img');
+            imageElement.src = friend.avatarUrl;
+            const promise = new Promise<void>((resolve) => {
+              if (imageElement.naturalWidth > 0) {
+                console.log('resolving, already loaded');
+                resolve();
+              }
+              imageElement.onload = () => resolve();
+            });
+            promises.push(promise);
 
-        await Promise.all(promises);
+            return { ...friend, avatarImg: imageElement };
+          });
 
-        setOwnAvatarImg(ownAvatarImg);
-        setFriends(friendsWithImages);
+          await Promise.all(promises);
+
+          setOwnAvatarImg(ownAvatarImg);
+          setFriends(friendsWithImages);
+          setError(undefined);
+        } else {
+          if (ownData.private) {
+            setError('User is private.');
+          } else {
+            setError("Couldn't load data. Please try again later.");
+          }
+        }
+      } catch (err) {
+        setError("Couldn't load data. Please try again later.");
       }
     };
 
     fetch();
-  }, [dataProvider, username, setFriends, setOwnAvatarImg]);
+  }, [dataProvider, username, setFriends, setOwnAvatarImg, setError]);
 
   return null;
 };

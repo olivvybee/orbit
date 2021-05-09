@@ -3,6 +3,9 @@ import { Friend } from '../models';
 export type DataProvider = (
   username: string
 ) => Promise<{
-  ownAvatarUrl: string;
+  ownData: {
+    private: boolean;
+    avatarUrl: string;
+  };
   friends: Friend[];
 }>;

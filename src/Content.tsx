@@ -2,18 +2,24 @@ import { useContext } from 'react';
 
 import { CircleLayout } from './circle-layout';
 import { Configurator } from './configurator';
-import { LayoutContext } from './models';
-import { DataFetcher } from './data-fetcher';
-import { RedPandaDataProvider } from './data-providers';
+import { FriendList, LayoutContext } from './models';
 
 const Content = () => {
+  const { friends, error } = useContext(FriendList);
   const { circles } = useContext(LayoutContext);
+
+  if (error) {
+    return <div className='error'>{error}</div>;
+  }
+
+  if (!friends.length) {
+    return <div className='loading'>Loading...</div>;
+  }
 
   return (
     <div className='content'>
       <CircleLayout circles={circles} />
       <Configurator />
-      <DataFetcher username='' dataProvider={RedPandaDataProvider} />
     </div>
   );
 };

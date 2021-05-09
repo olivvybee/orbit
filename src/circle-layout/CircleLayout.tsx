@@ -18,8 +18,9 @@ const CircleLayout: React.FC<CircleLayoutProps> = ({ circles }) => {
     circles,
   ]);
 
-  if (friends.length === 0 || !ownAvatarImg) {
-    return <div>Loading...</div>;
+  if (!ownAvatarImg) {
+    console.log('Own avatar image missing');
+    return null;
   }
 
   const scaleX = (2 * CENTER_RADIUS) / ownAvatarImg.naturalWidth;
