@@ -1,7 +1,5 @@
-import React, { useContext, useEffect, useRef } from 'react';
-import { Circle as CanvasCircle, Group } from 'react-konva';
-import useImage from 'use-image';
-import { ImageStore } from '../models/ImageStore';
+import React from 'react';
+import { Circle as CanvasCircle } from 'react-konva';
 
 import { CANVAS_SIZE } from './constants';
 
@@ -50,6 +48,7 @@ const Circle: React.FC<CircleProps> = ({ layout, items }) => {
 
         return (
           <CanvasCircle
+            key={item.id}
             radius={itemRadius}
             fillPatternImage={image}
             fillPatternOffsetX={itemRadius}

@@ -1,6 +1,6 @@
 import { useContext, useEffect } from 'react';
 
-import { FriendList, ImageStore } from '../models';
+import { FriendList } from '../models';
 
 import { DataFetcherProps } from './interfaces';
 
@@ -50,7 +50,7 @@ export const DataFetcher: React.FC<DataFetcherProps> = ({
     };
 
     fetch();
-  }, [dataProvider, username, setFriends]);
+  }, [dataProvider, username, setFriends, setOwnAvatarImg]);
 
   return null;
 };

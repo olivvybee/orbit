@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useMemo, useRef } from 'react';
-import { Stage, Layer, Circle as CanvasCircle, Line } from 'react-konva';
+import React, { useContext, useMemo } from 'react';
+import { Stage, Layer, Circle as CanvasCircle } from 'react-konva';
 
 import { calculateLayout } from './calculate-layout';
 import { CANVAS_SIZE, CENTER_RADIUS } from './constants';
@@ -10,8 +10,6 @@ import { distributeItems } from './distribute-items';
 import { FriendList } from '../models';
 
 const CircleLayout: React.FC<CircleLayoutProps> = ({ circles }) => {
-  const layerRef = useRef(null);
-
   const { ownAvatarImg, friends } = useContext(FriendList);
 
   const layout = useMemo(() => calculateLayout(circles), [circles]);
@@ -19,15 +17,6 @@ const CircleLayout: React.FC<CircleLayoutProps> = ({ circles }) => {
     friends,
     circles,
   ]);
-
-  useEffect(() => {
-    if (friends.length > 0) {
-      if (layerRef.current) {
-        console.log(layerRef.current);
-        (layerRef.current as any).batchDraw();
-      }
-    }
-  }, [friends]);
 
   if (friends.length === 0 || !ownAvatarImg) {
     return <div>Loading...</div>;
@@ -39,7 +28,7 @@ const CircleLayout: React.FC<CircleLayoutProps> = ({ circles }) => {
   return (
     <div className='circle-layout'>
       <Stage width={CANVAS_SIZE} height={CANVAS_SIZE}>
-        <Layer ref={layerRef}>
+        <Layer>
           <CanvasCircle
             radius={CENTER_RADIUS}
             fillPatternImage={ownAvatarImg}
@@ -53,6 +42,7 @@ const CircleLayout: React.FC<CircleLayoutProps> = ({ circles }) => {
           />
           {layout.map((circleLayout, circleIndex) => (
             <Circle
+              key={circleIndex}
               layout={circleLayout}
               items={itemDistribution[circleIndex]}
             />
