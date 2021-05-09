@@ -18,9 +18,9 @@ export const LayoutContext = createContext<LayoutContextShape>({
 
 export const LayoutContextProvider: React.FC = ({ children }) => {
   const [circles, setCircles] = useState<CircleData[]>([
-    { numberOfItems: 6 },
-    { numberOfItems: 12 },
-    { numberOfItems: 12 },
+    { numberOfItems: 10 },
+    { numberOfItems: 20 },
+    { numberOfItems: 30 },
   ]);
 
   const addCircle = () => setCircles([...circles, { numberOfItems: 12 }]);
