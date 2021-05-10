@@ -3,6 +3,7 @@ import axios from 'axios';
 import _uniqBy from 'lodash/uniqBy';
 import _countBy from 'lodash/countBy';
 import _orderBy from 'lodash/orderBy';
+import _chunk from 'lodash/chunk';
 
 const USER_ENDPOINT =
   'https://api.twitter.com/1.1/users/lookup.json?screen_name=';
@@ -20,14 +21,6 @@ const headers = {
   Authorization: `Bearer ${process.env.TWITTER_BEARER_TOKEN}`,
 };
 
-const extractUserInfo = (user: any) => ({
-  id: user.id_str,
-  private: user.protected,
-  avatarUrl: user.profile_image_url_https.replace('_normal', ''),
-  username: user.screen_name,
-});
-
-// Docs on event and context https://www.netlify.com/docs/functions/#the-handler-method
 export const handler: Handler = async (event) => {
   try {
     const username = event.queryStringParameters.username;
@@ -50,52 +43,15 @@ export const handler: Handler = async (event) => {
 
     let usersData = [];
 
-    let likes = [];
-    let previousLikeId = undefined;
-    for (let i = 0; i < MAX_LIKES_ITERATIONS; i++) {
-      let url = `${LIKES_ENDPOINT}${username}`;
-      if (previousLikeId) {
-        url += `&max_id=${previousLikeId}`;
-      }
-
-      const likesResponse = await axios.get(url, {
-        headers,
-      });
-
-      const lowestId = likesResponse.data.map((tweet) => tweet.id).sort()[0];
-      if (lowestId === previousLikeId) {
-        break;
-      }
-
-      likes = likes.concat(likesResponse.data);
-      previousLikeId = lowestId;
-    }
+    const [likes, tweets] = await Promise.all([
+      fetchLikes(username),
+      fetchTweets(username),
+    ]);
 
     const likedUserIds = _countBy(likes.map((tweet) => tweet.user.id_str));
     usersData = usersData.concat(
       likes.map((tweet) => extractUserInfo(tweet.user))
     );
-
-    let tweets = [];
-    let previousId = undefined;
-    for (let i = 0; i < MAX_TWEETS_ITERATIONS; i++) {
-      let url = `${TWEETS_ENDPOINT}${username}`;
-      if (previousId) {
-        url += `&max_id=${previousId}`;
-      }
-
-      const tweetsResponse = await axios.get(url, {
-        headers,
-      });
-
-      const lowestId = tweetsResponse.data.map((tweet) => tweet.id).sort()[0];
-      if (lowestId === previousId) {
-        break;
-      }
-
-      tweets = tweets.concat(tweetsResponse.data);
-      previousId = lowestId;
-    }
 
     const mentions = tweets.filter(
       (tweet) =>
@@ -134,13 +90,8 @@ export const handler: Handler = async (event) => {
       quotes.map((tweet) => extractUserInfo(tweet.quoted_status.user))
     );
 
-    const mentionedUsersResponse = await axios.get(
-      `${USER_LOOKUP_ENDPOINT}${uniqueMentionedUserIds.slice(0, 99).join(',')}`,
-      { headers }
-    );
-    usersData = usersData.concat(
-      mentionedUsersResponse.data.map(extractUserInfo)
-    );
+    const mentionedUsers = await fetchMentionedUsers(uniqueMentionedUserIds);
+    usersData = usersData.concat(mentionedUsers);
 
     const uniqueUsers = _uniqBy(usersData, 'id').filter(
       (user) => !user.private
@@ -177,3 +128,75 @@ export const handler: Handler = async (event) => {
     return { statusCode: 500, body: error.toString() };
   }
 };
+
+const fetchLikes = async (username: string) => {
+  let likes = [];
+  let previousId = undefined;
+  for (let i = 0; i < MAX_LIKES_ITERATIONS; i++) {
+    let url = `${LIKES_ENDPOINT}${username}`;
+    if (previousId) {
+      url += `&max_id=${previousId}`;
+    }
+
+    const likesResponse = await axios.get(url, {
+      headers,
+    });
+
+    const lowestId = likesResponse.data.map((tweet) => tweet.id).sort()[0];
+    if (lowestId === previousId) {
+      break;
+    }
+
+    likes = likes.concat(likesResponse.data);
+    previousId = lowestId;
+  }
+  return likes;
+};
+
+const fetchTweets = async (username: string) => {
+  let tweets = [];
+  let previousId = undefined;
+  for (let i = 0; i < MAX_TWEETS_ITERATIONS; i++) {
+    let url = `${TWEETS_ENDPOINT}${username}`;
+    if (previousId) {
+      url += `&max_id=${previousId}`;
+    }
+
+    const tweetsResponse = await axios.get(url, {
+      headers,
+    });
+
+    const lowestId = tweetsResponse.data.map((tweet) => tweet.id).sort()[0];
+    if (lowestId === previousId) {
+      break;
+    }
+
+    tweets = tweets.concat(tweetsResponse.data);
+    previousId = lowestId;
+  }
+  return tweets;
+};
+
+const fetchMentionedUsers = async (userIds: string[]) => {
+  const batches = _chunk(userIds, 100);
+
+  const requests = batches.map(async (batch) => {
+    const usersResponse = await axios.get(
+      `${USER_LOOKUP_ENDPOINT}${batch.join(',')}`,
+      {
+        headers,
+      }
+    );
+    return usersResponse.data.map(extractUserInfo);
+  });
+
+  const batchedResults = await Promise.all(requests);
+  return batchedResults.reduce((combined, batch) => combined.concat(batch), []);
+};
+
+const extractUserInfo = (user: any) => ({
+  id: user.id_str,
+  private: user.protected,
+  avatarUrl: user.profile_image_url_https.replace('_normal', ''),
+  username: user.screen_name,
+});
