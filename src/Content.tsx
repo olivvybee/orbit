@@ -2,11 +2,11 @@ import { useContext } from 'react';
 
 import { CircleLayout } from './circle-layout';
 import { Configurator } from './configurator';
-import { FriendList, LayoutContext } from './models';
+import { FriendList, Settings } from './models';
 
 const Content = () => {
   const { friends, error } = useContext(FriendList);
-  const { circles } = useContext(LayoutContext);
+  const { circles } = useContext(Settings);
 
   if (error) {
     return <div className='error'>{error}</div>;

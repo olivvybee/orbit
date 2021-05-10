@@ -2,21 +2,21 @@ import { createContext, useState } from 'react';
 
 import { CircleData } from '../circle-layout/interfaces';
 
-interface LayoutContextShape {
+interface SettingsShape {
   circles: CircleData[];
   addCircle: () => void;
   removeCircle: () => void;
   setNumberOfItems: (index: number, numberOfItems: number) => void;
 }
 
-export const LayoutContext = createContext<LayoutContextShape>({
+export const Settings = createContext<SettingsShape>({
   circles: [],
   addCircle: () => {},
   removeCircle: () => {},
   setNumberOfItems: () => {},
 });
 
-export const LayoutContextProvider: React.FC = ({ children }) => {
+export const SettingsProvider: React.FC = ({ children }) => {
   const [circles, setCircles] = useState<CircleData[]>([
     { numberOfItems: 10 },
     { numberOfItems: 20 },
@@ -33,11 +33,11 @@ export const LayoutContextProvider: React.FC = ({ children }) => {
     ]);
 
   return (
-    <LayoutContext.Provider
+    <Settings.Provider
       value={{ circles, addCircle, removeCircle, setNumberOfItems }}>
       {children}
-    </LayoutContext.Provider>
+    </Settings.Provider>
   );
 };
 
-LayoutContextProvider.displayName = 'LayoutContextProvider';
+SettingsProvider.displayName = 'SettingsProvider';

@@ -1,2 +1,2 @@
-export * from './LayoutContext';
+export * from './Settings';
 export * from './FriendList';

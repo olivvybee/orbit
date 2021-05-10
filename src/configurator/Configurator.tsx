@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
-import { LayoutContext } from '../models';
+import { Settings } from '../models';
 
 const Configurator = () => {
   const { circles, addCircle, removeCircle, setNumberOfItems } = useContext(
-    LayoutContext
+    Settings
   );
 
   return (
