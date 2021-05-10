@@ -35,7 +35,6 @@ export const DataFetcher: React.FC<DataFetcherProps> = ({
             imageElement.src = friend.avatarUrl;
             const promise = new Promise<void>((resolve) => {
               if (imageElement.naturalWidth > 0) {
-                console.log('resolving, already loaded');
                 resolve();
               }
               imageElement.onload = () => resolve();
