@@ -1,13 +1,16 @@
 import React, { useContext, useMemo } from 'react';
-import { Stage, Layer, Circle as CanvasCircle } from 'react-konva';
+import { Stage, Layer, Circle as CanvasCircle, Rect } from 'react-konva';
+
+import { FriendList } from '../models';
 
 import { calculateLayout } from './calculate-layout';
-import { CANVAS_SIZE, CENTER_RADIUS } from './constants';
-import { CircleLayoutProps } from './interfaces';
+import { distributeItems } from './distribute-items';
 
 import Circle from './Circle';
-import { distributeItems } from './distribute-items';
-import { FriendList } from '../models';
+
+import { CANVAS_SIZE, CENTER_RADIUS } from './constants';
+import { CircleLayoutProps } from './interfaces';
+import './CircleLayout.css';
 
 const CircleLayout: React.FC<CircleLayoutProps> = ({ circles }) => {
   const { ownAvatarImg, friends } = useContext(FriendList);
@@ -27,9 +30,16 @@ const CircleLayout: React.FC<CircleLayoutProps> = ({ circles }) => {
   const scaleY = (2 * CENTER_RADIUS) / ownAvatarImg.naturalHeight;
 
   return (
-    <div className='circle-layout'>
+    <div id='circle-layout'>
       <Stage width={CANVAS_SIZE} height={CANVAS_SIZE}>
         <Layer>
+          <Rect
+            x={0}
+            y={0}
+            width={CANVAS_SIZE}
+            height={CANVAS_SIZE}
+            fill='#e0d6ff'
+          />
           <CanvasCircle
             radius={CENTER_RADIUS}
             fillPatternImage={ownAvatarImg}
@@ -38,6 +48,7 @@ const CircleLayout: React.FC<CircleLayoutProps> = ({ circles }) => {
             fillPatternScaleX={scaleX}
             fillPatternScaleY={scaleY}
             stroke='black'
+            strokeWidth={1}
             x={CANVAS_SIZE / 2}
             y={CANVAS_SIZE / 2}
           />

@@ -1,0 +1,7 @@
+#configurator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 300px;
+  border: 1px solid #e0d6ff;
+}

@@ -1,5 +1,8 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
+
 import { Settings } from '../models';
+
+import './Configurator.css';
 
 const Configurator = () => {
   const { circles, addCircle, removeCircle, setNumberOfItems } = useContext(
@@ -7,7 +10,7 @@ const Configurator = () => {
   );
 
   return (
-    <div className='configurator'>
+    <div id='configurator'>
       <div className='buttons'>
         <button onClick={removeCircle}>-</button>
         <button onClick={addCircle}>+</button>

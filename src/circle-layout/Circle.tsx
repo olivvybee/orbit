@@ -56,6 +56,7 @@ const Circle: React.FC<CircleProps> = ({ layout, items }) => {
             fillPatternScaleX={scaleX}
             fillPatternScaleY={scaleY}
             stroke='black'
+            strokeWidth={1}
             x={x}
             y={y}
           />

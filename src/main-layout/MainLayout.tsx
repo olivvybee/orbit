@@ -1,10 +1,12 @@
 import { useContext } from 'react';
 
-import { CircleLayout } from './circle-layout';
-import { Configurator } from './configurator';
-import { FriendList, Settings } from './models';
+import { CircleLayout } from '../circle-layout';
+import { Configurator } from '../configurator';
+import { FriendList, Settings } from '../models';
 
-const Content = () => {
+import './MainLayout.css';
+
+const MainLayout = () => {
   const { friends, error } = useContext(FriendList);
   const { circles } = useContext(Settings);
 
@@ -17,13 +19,14 @@ const Content = () => {
   }
 
   return (
-    <div className='content'>
+    <div id='main-layout'>
       <CircleLayout circles={circles} />
+      <div id='spacer' />
       <Configurator />
     </div>
   );
 };
 
-Content.displayName = 'Content';
+MainLayout.displayName = 'MainLayout';
 
-export default Content;
+export default MainLayout;

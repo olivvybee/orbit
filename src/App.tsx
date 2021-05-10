@@ -1,6 +1,6 @@
 import './App.css';
 
-import Content from './Content';
+import { MainLayout } from './main-layout';
 import { DataFetcher } from './data-fetcher';
 import { RedPandaDataProvider } from './data-providers';
 import { SettingsProvider, FriendListProvider } from './models';
@@ -9,8 +9,8 @@ function App() {
   return (
     <FriendListProvider>
       <SettingsProvider>
-        <div className='App'>
-          <Content />
+        <div id='app'>
+          <MainLayout />
         </div>
         <DataFetcher username='' dataProvider={RedPandaDataProvider} />
       </SettingsProvider>
