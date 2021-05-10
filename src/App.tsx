@@ -2,7 +2,7 @@ import './App.css';
 
 import Content from './Content';
 import { DataFetcher } from './data-fetcher';
-import { TwitterDataProvider } from './data-providers';
+import { RedPandaDataProvider } from './data-providers';
 import { LayoutContextProvider, FriendListProvider } from './models';
 
 function App() {
@@ -12,7 +12,7 @@ function App() {
         <div className='App'>
           <Content />
         </div>
-        <DataFetcher username='' dataProvider={TwitterDataProvider} />
+        <DataFetcher username='' dataProvider={RedPandaDataProvider} />
       </LayoutContextProvider>
     </FriendListProvider>
   );
