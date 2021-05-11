@@ -23,7 +23,7 @@ const headers = {
 
 export const handler: Handler = async (event) => {
   try {
-    const username = event.queryStringParameters.username;
+    const username = event.queryStringParameters.username.toLowerCase();
 
     const userResponse = await axios.get(`${USER_ENDPOINT}${username}`, {
       headers,
@@ -56,8 +56,8 @@ export const handler: Handler = async (event) => {
     const mentions = tweets.filter(
       (tweet) =>
         tweet.in_reply_to_user_id &&
-        tweet.user.screen_name === username &&
-        tweet.in_reply_to_screen_name !== username
+        tweet.user.screen_name.toLowerCase() === username &&
+        tweet.in_reply_to_screen_name.toLowerCase() !== username
     );
     const mentionedUserIds = _countBy(
       mentions.map((tweet) => tweet.in_reply_to_user_id_str)
@@ -67,7 +67,7 @@ export const handler: Handler = async (event) => {
     const retweets = tweets.filter(
       (tweet) =>
         tweet.retweeted_status &&
-        tweet.retweeted_status.user.screen_name !== username
+        tweet.retweeted_status.user.screen_name.toLowerCase() !== username
     );
     const retweetedUserIds = _countBy(
       retweets.map((tweet) => tweet.retweeted_status.user.id_str)
@@ -80,8 +80,8 @@ export const handler: Handler = async (event) => {
       (tweet) =>
         tweet.is_quote_status &&
         tweet.quoted_status &&
-        tweet.user.screen_name === username &&
-        tweet.quoted_status.user.screen_name !== username
+        tweet.user.screen_name.toLowerCase() === username &&
+        tweet.quoted_status.user.screen_name.toLowerCase() !== username
     );
     const quotedUserIds = _countBy(
       quotes.map((tweet) => tweet.quoted_status.user.id_str)
@@ -94,7 +94,7 @@ export const handler: Handler = async (event) => {
     usersData = usersData.concat(mentionedUsers);
 
     const uniqueUsers = _uniqBy(usersData, 'id').filter(
-      (user) => !user.private
+      (user) => !user.private && user.username.toLowerCase() !== username
     );
 
     const friendsWithScores = uniqueUsers.map((user) => {
@@ -150,7 +150,9 @@ const fetchLikes = async (username: string) => {
     likes = likes.concat(likesResponse.data);
     previousId = lowestId;
   }
-  return likes;
+  return likes.filter(
+    (tweet) => tweet.user.screen_name.toLowerCase() !== username
+  );
 };
 
 const fetchTweets = async (username: string) => {
