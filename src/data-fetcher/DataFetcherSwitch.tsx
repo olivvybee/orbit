@@ -4,9 +4,6 @@ import { DataFetcher } from './DataFetcher';
 
 const DataFetcherSwitch = () => (
   <Switch>
-    <Route path='/panda'>
-      <DataFetcher dataProvider={RedPandaDataProvider} username='' />
-    </Route>
     <Route path='/twitter/:username'>
       {({ match }) => (
         <DataFetcher
@@ -14,6 +11,10 @@ const DataFetcherSwitch = () => (
           username={match?.params.username || ''}
         />
       )}
+    </Route>
+
+    <Route>
+      <DataFetcher dataProvider={RedPandaDataProvider} username='' />
     </Route>
   </Switch>
 );
