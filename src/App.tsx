@@ -1,18 +1,22 @@
-import './App.css';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 import { MainLayout } from './main-layout';
-import { DataFetcher } from './data-fetcher';
-import { RedPandaDataProvider } from './data-providers';
+import { DataFetcherSwitch } from './data-fetcher';
 import { SettingsProvider, FriendListProvider } from './models';
+
+import './App.css';
 
 function App() {
   return (
     <FriendListProvider>
       <SettingsProvider>
         <div id='app'>
-          <MainLayout />
+          <Router>
+            <MainLayout />
+
+            <DataFetcherSwitch />
+          </Router>
         </div>
-        <DataFetcher username='' dataProvider={RedPandaDataProvider} />
       </SettingsProvider>
     </FriendListProvider>
   );
