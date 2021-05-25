@@ -1,5 +1,6 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useContext, useMemo, useRef } from 'react';
 import { Stage, Layer, Circle as CanvasCircle, Rect } from 'react-konva';
+import { Stage as StageType } from 'konva/types/Stage';
 
 import { FriendList } from '../models';
 
@@ -11,7 +12,7 @@ import Circle from './Circle';
 import { CANVAS_SIZE, CENTER_RADIUS } from './constants';
 import { CircleLayoutProps } from './interfaces';
 
-const CircleLayout: React.FC<CircleLayoutProps> = ({ circles }) => {
+const CircleLayout: React.FC<CircleLayoutProps> = ({ circles, stageRef }) => {
   const { ownAvatarImg, friends } = useContext(FriendList);
 
   const layout = useMemo(() => calculateLayout(circles), [circles]);
@@ -30,7 +31,7 @@ const CircleLayout: React.FC<CircleLayoutProps> = ({ circles }) => {
 
   return (
     <div id='circle-layout'>
-      <Stage width={CANVAS_SIZE} height={CANVAS_SIZE}>
+      <Stage width={CANVAS_SIZE} height={CANVAS_SIZE} ref={stageRef}>
         <Layer>
           <Rect
             x={0}

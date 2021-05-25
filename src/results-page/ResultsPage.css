@@ -14,3 +14,7 @@
   width: 100% !important;
   height: 100% !important;
 }
+
+#export-button {
+  margin-bottom: var(--bs-gutter-y);
+}
