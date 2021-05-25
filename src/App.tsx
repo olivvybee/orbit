@@ -1,6 +1,6 @@
 import { BrowserRouter as Router } from 'react-router-dom';
 
-import { MainLayout } from './main-layout';
+import { ResultsPage } from './results-page';
 import { DataFetcherSwitch } from './data-fetcher';
 import { SettingsProvider, FriendListProvider } from './models';
 
@@ -12,7 +12,7 @@ function App() {
       <SettingsProvider>
         <div id='app'>
           <Router>
-            <MainLayout />
+            <ResultsPage />
 
             <DataFetcherSwitch />
           </Router>

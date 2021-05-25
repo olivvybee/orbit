@@ -4,9 +4,9 @@ import { CircleLayout } from '../circle-layout';
 import { Configurator } from '../configurator';
 import { FriendList, Settings } from '../models';
 
-import './MainLayout.css';
+import './ResultsPage.css';
 
-const MainLayout = () => {
+const ResultsPage = () => {
   const { friends, error } = useContext(FriendList);
   const { circles } = useContext(Settings);
 
@@ -19,14 +19,21 @@ const MainLayout = () => {
   }
 
   return (
-    <div id='main-layout'>
-      <CircleLayout circles={circles} />
-      <div id='spacer' />
-      <Configurator />
+    <div className='container-md' id='results-page'>
+      <div className='row'>
+        <div className='col'>
+          <div id='results-wrapper'>
+            <CircleLayout circles={circles} />
+          </div>
+        </div>
+        <div className='col-md-4'>
+          <Configurator />
+        </div>
+      </div>
     </div>
   );
 };
 
-MainLayout.displayName = 'MainLayout';
+ResultsPage.displayName = 'ResultsPage';
 
-export default MainLayout;
+export default ResultsPage;

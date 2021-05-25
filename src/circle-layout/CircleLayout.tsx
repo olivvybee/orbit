@@ -10,7 +10,6 @@ import Circle from './Circle';
 
 import { CANVAS_SIZE, CENTER_RADIUS } from './constants';
 import { CircleLayoutProps } from './interfaces';
-import './CircleLayout.css';
 
 const CircleLayout: React.FC<CircleLayoutProps> = ({ circles }) => {
   const { ownAvatarImg, friends } = useContext(FriendList);

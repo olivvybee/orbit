@@ -1,0 +1,16 @@
+#results-wrapper {
+  width: 100%;
+  padding-top: 100%;
+  position: relative;
+}
+
+#results-wrapper > * {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#results-wrapper * {
+  width: 100% !important;
+  height: 100% !important;
+}
