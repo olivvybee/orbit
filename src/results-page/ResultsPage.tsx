@@ -20,7 +20,7 @@ const ResultsPage = () => {
 
   return (
     <div className='container-md' id='results-page'>
-      <div className='row'>
+      <div className='row gy-2'>
         <div className='col'>
           <div id='results-wrapper'>
             <CircleLayout circles={circles} />
