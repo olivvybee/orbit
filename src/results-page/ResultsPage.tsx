@@ -8,6 +8,7 @@ import { ResultDetails } from '../result-details';
 import { distributeItems } from '../circle-layout/distribute-items';
 import { calculateLayout } from '../circle-layout/calculate-layout';
 import { LoadingScreen } from '../loading-screen';
+import { ErrorScreen } from '../error-screen';
 
 import { EXPORT_FILE_NAME } from './constants';
 
@@ -40,7 +41,7 @@ const ResultsPage = () => {
   };
 
   if (error) {
-    return <div className='error'>{error}</div>;
+    return <ErrorScreen>{error}</ErrorScreen>;
   }
 
   if (!friends.length) {
