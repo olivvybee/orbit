@@ -104,6 +104,7 @@ export const Homepage = () => {
           <a
             className='fw-bold'
             target='_blank'
+            rel='noreferrer'
             href='https://twitter.com/olivvysaur'>
             @olivvysaur
           </a>{' '}

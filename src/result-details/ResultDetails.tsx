@@ -27,6 +27,7 @@ export const ResultDetails: React.FC<ResultDetailsProps> = ({
                       <a
                         className='link-primary'
                         href={friend.url}
+                        rel='noreferrer'
                         target='_blank'>
                         @{friend.username}
                       </a>
