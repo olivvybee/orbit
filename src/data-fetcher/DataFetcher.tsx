@@ -22,6 +22,7 @@ export const DataFetcher: React.FC<DataFetcherProps> = ({
 
           const ownAvatarImg = document.createElement('img');
           ownAvatarImg.src = ownAvatarUrl;
+          ownAvatarImg.crossOrigin = 'Anonymous';
           const promise = new Promise<void>((resolve) => {
             if (ownAvatarImg.naturalWidth > 0) {
               resolve();
@@ -33,6 +34,7 @@ export const DataFetcher: React.FC<DataFetcherProps> = ({
           const friendsWithImages = friends.map((friend) => {
             const imageElement = document.createElement('img');
             imageElement.src = friend.avatarUrl;
+            imageElement.crossOrigin = 'Anonymous';
             const promise = new Promise<void>((resolve) => {
               if (imageElement.naturalWidth > 0) {
                 resolve();
