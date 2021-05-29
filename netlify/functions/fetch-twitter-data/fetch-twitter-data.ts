@@ -201,4 +201,5 @@ const extractUserInfo = (user: any) => ({
   private: user.protected,
   avatarUrl: user.profile_image_url_https.replace('_normal', ''),
   username: user.screen_name,
+  url: `https://twitter.com/${user.screen_name}`,
 });

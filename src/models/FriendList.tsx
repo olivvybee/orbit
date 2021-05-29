@@ -6,6 +6,7 @@ export interface Friend {
   avatarUrl: string;
   score: number;
   avatarImg?: HTMLImageElement;
+  url?: string;
 }
 
 interface FriendListShape {

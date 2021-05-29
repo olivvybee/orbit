@@ -1,0 +1,1 @@
+export { ResultDetails } from './ResultDetails';

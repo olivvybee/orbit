@@ -1,17 +1,26 @@
-import { useContext, useRef } from 'react';
+import { useContext, useMemo, useRef } from 'react';
 import { Stage } from 'konva/types/Stage';
 
 import { CircleLayout } from '../circle-layout';
 import { Configurator } from '../configurator';
 import { FriendList, Settings } from '../models';
+import { ResultDetails } from '../result-details';
+import { distributeItems } from '../circle-layout/distribute-items';
 
 import { EXPORT_FILE_NAME } from './constants';
 
 import './ResultsPage.css';
+import { calculateLayout } from '../circle-layout/calculate-layout';
 
 const ResultsPage = () => {
   const { friends, error } = useContext(FriendList);
   const { circles } = useContext(Settings);
+
+  const layout = useMemo(() => calculateLayout(circles), [circles]);
+  const itemDistribution = useMemo(() => distributeItems(friends, circles), [
+    friends,
+    circles,
+  ]);
 
   const stageRef = useRef<Stage>(null);
 
@@ -42,7 +51,11 @@ const ResultsPage = () => {
       <div className='row gy-4'>
         <div className='col '>
           <div id='results-wrapper'>
-            <CircleLayout circles={circles} stageRef={stageRef} />
+            <CircleLayout
+              layout={layout}
+              itemDistribution={itemDistribution}
+              stageRef={stageRef}
+            />
           </div>
         </div>
 
@@ -57,6 +70,7 @@ const ResultsPage = () => {
 
           <div className='w-100 accordion'>
             <Configurator />
+            <ResultDetails itemDistribution={itemDistribution} />
           </div>
         </div>
       </div>

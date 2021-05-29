@@ -8,7 +8,8 @@ export interface CircleData {
 }
 
 export interface CircleLayoutProps {
-  circles: CircleData[];
+  layout: CircleLayout[];
+  itemDistribution: Friend[][];
   stageRef: React.LegacyRef<Stage>;
 }
 

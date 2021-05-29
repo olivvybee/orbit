@@ -1,25 +1,20 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useContext } from 'react';
 import { Stage, Layer, Circle as CanvasCircle, Rect } from 'react-konva';
 
 import { FriendList, Settings } from '../models';
-
-import { calculateLayout } from './calculate-layout';
-import { distributeItems } from './distribute-items';
 
 import Circle from './Circle';
 
 import { CANVAS_SIZE, CENTER_RADIUS } from './constants';
 import { CircleLayoutProps } from './interfaces';
 
-const CircleLayout: React.FC<CircleLayoutProps> = ({ circles, stageRef }) => {
-  const { ownAvatarImg, friends } = useContext(FriendList);
+const CircleLayout: React.FC<CircleLayoutProps> = ({
+  layout,
+  itemDistribution,
+  stageRef,
+}) => {
+  const { ownAvatarImg } = useContext(FriendList);
   const { colours } = useContext(Settings);
-
-  const layout = useMemo(() => calculateLayout(circles), [circles]);
-  const itemDistribution = useMemo(() => distributeItems(friends, circles), [
-    friends,
-    circles,
-  ]);
 
   if (!ownAvatarImg) {
     console.log('Own avatar image missing');
