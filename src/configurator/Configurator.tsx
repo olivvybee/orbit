@@ -40,7 +40,7 @@ const Configurator = () => {
               <div className='d-flex align-items-center gx-3 mt-1'>
                 <button
                   type='button'
-                  className='btn btn-light'
+                  className='btn btn-primary'
                   onClick={removeCircle}
                   disabled={minusButtonDisabled}>
                   -
@@ -48,7 +48,7 @@ const Configurator = () => {
                 <span className='mx-3'>{circles.length}</span>
                 <button
                   type='button'
-                  className='btn btn-light'
+                  className='btn btn-primary'
                   onClick={addCircle}
                   disabled={plusButtonDisabled}>
                   +
