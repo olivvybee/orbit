@@ -91,6 +91,10 @@ export const Homepage = () => {
           <strong>your</strong> tweets and likes.
         </p>
         <p>
+          Orbit also <strong>can't see private (locked) accounts</strong>, so
+          they won't appear in your circles.
+        </p>
+        <p>
           Once your data has loaded, you are free to adjust the layout by
           changing the number of circles, as well as how many people appear in
           each circle.
