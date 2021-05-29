@@ -8,7 +8,14 @@ export const Homepage = () => {
   const canGenerate = !!username && username.length > 0;
 
   const goToResults = () => {
-    history.push(`/twitter/${username}`);
+    if (!username) {
+      return;
+    }
+
+    const santisedUsername = username.startsWith('@')
+      ? username.slice(1)
+      : username;
+    history.push(`/twitter/${santisedUsername}`);
   };
 
   return (
@@ -28,6 +35,11 @@ export const Homepage = () => {
               placeholder='@somebody'
               value={username}
               onChange={(e) => setUsername(e.target.value)}
+              onKeyPress={(e) => {
+                if (canGenerate && e.key === 'Enter') {
+                  goToResults();
+                }
+              }}
             />
           </div>
           <button
