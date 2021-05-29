@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
-import { Stage, Layer, Circle as CanvasCircle, Rect } from 'react-konva';
+import { Stage, Layer, Circle as CanvasCircle, Rect, Text } from 'react-konva';
+import Color from 'color';
 
 import { FriendList, Settings } from '../models';
 
@@ -23,6 +24,9 @@ const CircleLayout: React.FC<CircleLayoutProps> = ({
 
   const scaleX = (2 * CENTER_RADIUS) / ownAvatarImg.naturalWidth;
   const scaleY = (2 * CENTER_RADIUS) / ownAvatarImg.naturalHeight;
+
+  const backgroundColour = Color(colours.background);
+  const watermarkColour = backgroundColour.isLight() ? '#282c34' : '#ffffff';
 
   return (
     <div id='circle-layout'>
@@ -56,6 +60,13 @@ const CircleLayout: React.FC<CircleLayoutProps> = ({
               connectingLineColour={colours.connectingLines}
             />
           ))}
+          <Text
+            x={10}
+            y={CANVAS_SIZE - 10 - 32}
+            fontSize={32}
+            text='orbit.livasch.com'
+            fill={watermarkColour}
+          />
         </Layer>
       </Stage>
     </div>
