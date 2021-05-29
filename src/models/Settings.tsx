@@ -23,7 +23,7 @@ export const SettingsProvider: React.FC = ({ children }) => {
     { numberOfItems: 30 },
   ]);
 
-  const addCircle = () => setCircles([...circles, { numberOfItems: 12 }]);
+  const addCircle = () => setCircles([...circles, { numberOfItems: 20 }]);
   const removeCircle = () => setCircles(circles.slice(0, -1));
   const setNumberOfItems = (index: number, numberOfItems: number) =>
     setCircles([
