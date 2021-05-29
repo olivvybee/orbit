@@ -33,6 +33,10 @@ export const Homepage = () => {
               className='form-control'
               id='twitter-username'
               placeholder='@somebody'
+              autoComplete='off'
+              autoCapitalize='off'
+              autoCorrect='off'
+              spellCheck='false'
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               onKeyPress={(e) => {
