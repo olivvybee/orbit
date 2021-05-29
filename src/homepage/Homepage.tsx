@@ -125,7 +125,14 @@ export const Homepage = () => {
             @olivvysaur
           </a>{' '}
           out of frustration that other twitter circle generators weren't
-          customisable.
+          customisable. If you like it, maybe{' '}
+          <a
+            href='https://ko-fi.com/olivvysaur'
+            target='_blank'
+            rel='noreferrer'>
+            buy her a coffee
+          </a>
+          .
         </p>
       </div>
     </div>
