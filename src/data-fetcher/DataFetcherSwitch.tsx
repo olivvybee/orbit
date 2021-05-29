@@ -13,7 +13,7 @@ const DataFetcherSwitch = () => (
       )}
     </Route>
 
-    <Route>
+    <Route path='/pandas'>
       <DataFetcher dataProvider={RedPandaDataProvider} username='' />
     </Route>
   </Switch>
