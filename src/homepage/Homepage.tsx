@@ -17,8 +17,11 @@ export const Homepage = () => {
         <h1>Orbit</h1>
         <span className='fs-3'>See who's in your twitter orbit</span>
 
-        <div className='mt-4 mb-5 d-flex align-items-stretch w-100'>
-          <div className='form-floating flex-fill'>
+        <div className='mt-4 mb-5 d-flex align-items-end w-100'>
+          <div className='flex-fill'>
+            <label className='form-label' htmlFor='twitter-username'>
+              Twitter username
+            </label>
             <input
               className='form-control'
               id='twitter-username'
@@ -26,9 +29,6 @@ export const Homepage = () => {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
-            <label className='form-label' htmlFor='twitter-username'>
-              Twitter username
-            </label>
           </div>
           <button
             className='btn btn-primary ms-2'
