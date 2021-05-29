@@ -39,14 +39,14 @@ const ResultsPage = () => {
 
   return (
     <div className='container-md' id='results-page'>
-      <div className='row gy-2'>
-        <div className='col'>
+      <div className='row gy-4'>
+        <div className='col '>
           <div id='results-wrapper'>
             <CircleLayout circles={circles} stageRef={stageRef} />
           </div>
         </div>
 
-        <div className='col-md-4'>
+        <div className='col-md-4 d-flex flex-column align-items-center'>
           <button
             type='button'
             id='export-button'
@@ -55,7 +55,9 @@ const ResultsPage = () => {
             Download image
           </button>
 
-          <Configurator />
+          <div className='w-100 accordion'>
+            <Configurator />
+          </div>
         </div>
       </div>
     </div>

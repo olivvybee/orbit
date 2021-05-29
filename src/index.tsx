@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import './custom.scss';
+import 'bootstrap/dist/js/bootstrap.min.js';
 
 import App from './App';
 

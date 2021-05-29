@@ -1,4 +1,8 @@
 $body-bg: #282c34;
 $body-color: #ffffff;
 
+$accordion-border-color: rgba(255, 255, 255, 0.2);
+$accordion-button-active-color: $body-color;
+$accordion-button-active-bg: $body-bg;
+
 @import '~bootstrap/scss/bootstrap.scss';
