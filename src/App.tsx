@@ -1,10 +1,11 @@
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import { ResultsPage } from './results-page';
 import { DataFetcherSwitch } from './data-fetcher';
 import { SettingsProvider, FriendListProvider } from './models';
 
 import './App.css';
+import { Homepage } from './homepage';
 
 function App() {
   return (
@@ -12,7 +13,14 @@ function App() {
       <SettingsProvider>
         <div id='app'>
           <Router>
-            <ResultsPage />
+            <Switch>
+              <Route path='/' exact>
+                <Homepage />
+              </Route>
+              <Route>
+                <ResultsPage />
+              </Route>
+            </Switch>
 
             <DataFetcherSwitch />
           </Router>
