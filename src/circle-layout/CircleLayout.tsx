@@ -1,8 +1,7 @@
-import React, { useContext, useMemo, useRef } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { Stage, Layer, Circle as CanvasCircle, Rect } from 'react-konva';
-import { Stage as StageType } from 'konva/types/Stage';
 
-import { FriendList } from '../models';
+import { FriendList, Settings } from '../models';
 
 import { calculateLayout } from './calculate-layout';
 import { distributeItems } from './distribute-items';
@@ -14,6 +13,7 @@ import { CircleLayoutProps } from './interfaces';
 
 const CircleLayout: React.FC<CircleLayoutProps> = ({ circles, stageRef }) => {
   const { ownAvatarImg, friends } = useContext(FriendList);
+  const { colours } = useContext(Settings);
 
   const layout = useMemo(() => calculateLayout(circles), [circles]);
   const itemDistribution = useMemo(() => distributeItems(friends, circles), [
@@ -38,7 +38,7 @@ const CircleLayout: React.FC<CircleLayoutProps> = ({ circles, stageRef }) => {
             y={0}
             width={CANVAS_SIZE}
             height={CANVAS_SIZE}
-            fill='#e0d6ff'
+            fill={colours.background}
           />
           <CanvasCircle
             radius={CENTER_RADIUS}
@@ -47,7 +47,7 @@ const CircleLayout: React.FC<CircleLayoutProps> = ({ circles, stageRef }) => {
             fillPatternOffsetY={CENTER_RADIUS}
             fillPatternScaleX={scaleX}
             fillPatternScaleY={scaleY}
-            stroke='black'
+            stroke={colours.circleBorders}
             strokeWidth={1}
             x={CANVAS_SIZE / 2}
             y={CANVAS_SIZE / 2}
@@ -57,6 +57,8 @@ const CircleLayout: React.FC<CircleLayoutProps> = ({ circles, stageRef }) => {
               key={circleIndex}
               layout={circleLayout}
               items={itemDistribution[circleIndex]}
+              borderColour={colours.circleBorders}
+              connectingLineColour={colours.connectingLines}
             />
           ))}
         </Layer>

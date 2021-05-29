@@ -14,7 +14,12 @@ const getCoordinates = (position: number, radius: number) => {
   };
 };
 
-const Circle: React.FC<CircleProps> = ({ layout, items }) => {
+const Circle: React.FC<CircleProps> = ({
+  layout,
+  items,
+  borderColour,
+  connectingLineColour,
+}) => {
   const { radius, itemRadius, itemPositions } = layout;
 
   return (
@@ -23,7 +28,8 @@ const Circle: React.FC<CircleProps> = ({ layout, items }) => {
         radius={radius}
         x={CANVAS_SIZE / 2}
         y={CANVAS_SIZE / 2}
-        stroke='white'
+        stroke={connectingLineColour}
+        strokeWidth={1}
       />
 
       {items.map((item, index) => {
@@ -34,7 +40,8 @@ const Circle: React.FC<CircleProps> = ({ layout, items }) => {
           radius: itemRadius,
           x,
           y,
-          stroke: 'black',
+          stroke: borderColour,
+          strokeWidth: 1,
         };
 
         const image = item.avatarImg;
@@ -49,16 +56,12 @@ const Circle: React.FC<CircleProps> = ({ layout, items }) => {
         return (
           <CanvasCircle
             key={item.id}
-            radius={itemRadius}
+            {...baseProps}
             fillPatternImage={image}
             fillPatternOffsetX={itemRadius}
             fillPatternOffsetY={itemRadius}
             fillPatternScaleX={scaleX}
             fillPatternScaleY={scaleY}
-            stroke='black'
-            strokeWidth={1}
-            x={x}
-            y={y}
           />
         );
       })}

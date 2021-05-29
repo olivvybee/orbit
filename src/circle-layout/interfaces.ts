@@ -1,7 +1,7 @@
 import { Stage } from 'konva/types/Stage';
 import React from 'react';
 
-import { Friend } from '../models';
+import { Friend, SettingsShape } from '../models';
 
 export interface CircleData {
   numberOfItems: number;
@@ -21,4 +21,6 @@ export interface CircleLayout {
 export interface CircleProps {
   layout: CircleLayout;
   items: Friend[];
+  borderColour: string;
+  connectingLineColour: string;
 }
