@@ -35,7 +35,7 @@ export const Homepage = () => {
             type='button'
             onClick={goToResults}
             disabled={!canGenerate}>
-            Create →
+            Create
           </button>
         </div>
       </div>
