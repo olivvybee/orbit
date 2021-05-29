@@ -6,11 +6,12 @@ import { Configurator } from '../configurator';
 import { FriendList, Settings } from '../models';
 import { ResultDetails } from '../result-details';
 import { distributeItems } from '../circle-layout/distribute-items';
+import { calculateLayout } from '../circle-layout/calculate-layout';
+import { LoadingScreen } from '../loading-screen';
 
 import { EXPORT_FILE_NAME } from './constants';
 
 import './ResultsPage.css';
-import { calculateLayout } from '../circle-layout/calculate-layout';
 
 const ResultsPage = () => {
   const { friends, error } = useContext(FriendList);
@@ -43,7 +44,7 @@ const ResultsPage = () => {
   }
 
   if (!friends.length) {
-    return <div className='loading'>Loading...</div>;
+    return <LoadingScreen />;
   }
 
   return (
