@@ -1,9 +1,40 @@
-import { useState } from 'react';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 export const Homepage = () => {
-  const [username, setUsername] = useState<string>();
+  const [rateLimitResetTime, setRateLimitResetTime] =
+    useState<number | undefined>(-1);
+  const [username, setUsername] = useState<string>('');
   const history = useHistory();
+
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        const response = await axios.get(
+          '/.netlify/functions/check-rate-limit'
+        );
+        const { available, resetTime } = response.data;
+        if (available) {
+          setRateLimitResetTime(undefined);
+        } else {
+          setRateLimitResetTime(resetTime);
+        }
+      } catch (error) {
+        setRateLimitResetTime(undefined);
+        console.error(error);
+      }
+    };
+
+    fetch();
+  }, [setRateLimitResetTime]);
+
+  console.log(rateLimitResetTime, new Date().getTime());
+  const now = new Date().getTime();
+  const minutesUntilRefresh = rateLimitResetTime
+    ? Math.ceil((rateLimitResetTime - now) / (60 * 1000))
+    : 0;
+  const minutesUnit = minutesUntilRefresh === 1 ? 'minute' : 'minutes';
 
   const canGenerate = !!username && username.length > 0;
 
@@ -24,36 +55,54 @@ export const Homepage = () => {
         <h1>Orbit</h1>
         <span className='fs-3'>See who's in your twitter orbit</span>
 
-        <div className='mt-4 mb-5 d-flex align-items-end w-100'>
-          <div className='flex-fill'>
-            <label className='form-label' htmlFor='twitter-username'>
-              Twitter username
-            </label>
-            <input
-              className='form-control'
-              id='twitter-username'
-              placeholder='@somebody'
-              autoComplete='off'
-              autoCapitalize='off'
-              autoCorrect='off'
-              spellCheck='false'
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              onKeyPress={(e) => {
-                if (canGenerate && e.key === 'Enter') {
-                  goToResults();
-                }
-              }}
-            />
+        {rateLimitResetTime === undefined && (
+          <div className='mt-4 mb-5 d-flex align-items-end w-100'>
+            <div className='flex-fill'>
+              <label className='form-label' htmlFor='twitter-username'>
+                Twitter username
+              </label>
+              <input
+                className='form-control'
+                id='twitter-username'
+                placeholder='@somebody'
+                autoComplete='off'
+                autoCapitalize='off'
+                autoCorrect='off'
+                spellCheck='false'
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                onKeyPress={(e) => {
+                  if (canGenerate && e.key === 'Enter') {
+                    goToResults();
+                  }
+                }}
+              />
+            </div>
+            <button
+              className='btn btn-primary ms-2'
+              type='button'
+              onClick={goToResults}
+              disabled={!canGenerate}>
+              Create
+            </button>
           </div>
-          <button
-            className='btn btn-primary ms-2'
-            type='button'
-            onClick={goToResults}
-            disabled={!canGenerate}>
-            Create
-          </button>
-        </div>
+        )}
+
+        {!!rateLimitResetTime && rateLimitResetTime > -1 && (
+          <div className='mt-4 mb-5 d-flex flex-column border border-danger rounded-3 p-4 d-flex flex-column'>
+            <span className='mb-3 fs-3'>Orbit is overloaded</span>
+
+            <p>
+              Twitter limits the number of requests Orbit can make in a given
+              time period.
+            </p>
+
+            <p>
+              The limit will reset in {minutesUntilRefresh} {minutesUnit}. After
+              that, please refresh the page to try again.
+            </p>
+          </div>
+        )}
       </div>
 
       <div className='mt-5 col-10 col-lg-6'>

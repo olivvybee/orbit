@@ -5,6 +5,8 @@ import _countBy from 'lodash/countBy';
 import _orderBy from 'lodash/orderBy';
 import _chunk from 'lodash/chunk';
 
+import { MAX_LIKES_ITERATIONS, MAX_TWEETS_ITERATIONS } from '../constants';
+
 const USER_ENDPOINT =
   'https://api.twitter.com/1.1/users/lookup.json?screen_name=';
 const LIKES_ENDPOINT =
@@ -13,9 +15,6 @@ const TWEETS_ENDPOINT =
   'https://api.twitter.com/1.1/statuses/user_timeline.json?count=200&screen_name=';
 const USER_LOOKUP_ENDPOINT =
   'https://api.twitter.com/1.1/users/lookup.json?user_id=';
-
-const MAX_TWEETS_ITERATIONS = 5;
-const MAX_LIKES_ITERATIONS = 3;
 
 const headers = {
   Authorization: `Bearer ${process.env.TWITTER_BEARER_TOKEN}`,
