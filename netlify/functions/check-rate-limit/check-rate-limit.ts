@@ -41,16 +41,17 @@ export const handler: Handler = async (event) => {
 
     const canLookupTweets = tweetsLookupsRemaining >= MAX_TWEETS_ITERATIONS * 2;
 
-    console.log({
-      userLookupsRemaining,
-      likesLookupsRemaining,
-      tweetsLookupsRemaining,
-    });
-
     const available = canLookupUsers && canLookupLikes && canLookupTweets;
 
     const resetTime =
       Math.max(userLookupsReset, likesLookupsReset, tweetsLookupsReset) * 1000;
+
+    console.log({
+      userLookupsRemaining,
+      likesLookupsRemaining,
+      tweetsLookupsRemaining,
+      resetTime,
+    });
 
     return { statusCode: 200, body: JSON.stringify({ available, resetTime }) };
   } catch (error) {

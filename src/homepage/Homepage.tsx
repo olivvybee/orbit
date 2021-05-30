@@ -1,33 +1,12 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 export const Homepage = () => {
   const [rateLimitResetTime, setRateLimitResetTime] =
-    useState<number | undefined>(-1);
+    useState<number | undefined>(undefined);
   const [username, setUsername] = useState<string>('');
   const history = useHistory();
-
-  useEffect(() => {
-    const fetch = async () => {
-      try {
-        const response = await axios.get(
-          '/.netlify/functions/check-rate-limit'
-        );
-        const { available, resetTime } = response.data;
-        if (available) {
-          setRateLimitResetTime(undefined);
-        } else {
-          setRateLimitResetTime(resetTime);
-        }
-      } catch (error) {
-        setRateLimitResetTime(undefined);
-        console.error(error);
-      }
-    };
-
-    fetch();
-  }, [setRateLimitResetTime]);
 
   console.log(rateLimitResetTime, new Date().getTime());
   const now = new Date().getTime();
@@ -38,8 +17,29 @@ export const Homepage = () => {
 
   const canGenerate = !!username && username.length > 0;
 
-  const goToResults = () => {
+  const goToResults = async () => {
     if (!username) {
+      return;
+    }
+
+    let shouldNavigate: boolean;
+    try {
+      const response = await axios.get('/.netlify/functions/check-rate-limit');
+      const { available, resetTime } = response.data;
+      if (available) {
+        setRateLimitResetTime(undefined);
+        shouldNavigate = true;
+      } else {
+        setRateLimitResetTime(resetTime);
+        shouldNavigate = false;
+      }
+    } catch (error) {
+      setRateLimitResetTime(undefined);
+      console.error(error);
+      shouldNavigate = false;
+    }
+
+    if (!shouldNavigate) {
       return;
     }
 
