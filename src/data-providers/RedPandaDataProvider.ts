@@ -16,6 +16,7 @@ export const RedPandaDataProvider: DataProvider = async () => {
   }
 
   return {
+    result: 'SUCCESS',
     ownData: {
       private: false,
       avatarUrl: `/red-panda-flipped.jpg?${now.getTime()}`,

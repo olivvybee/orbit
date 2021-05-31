@@ -13,7 +13,14 @@ export const DataFetcher: React.FC<DataFetcherProps> = ({
   useEffect(() => {
     const fetch = async () => {
       try {
-        const { ownData, friends } = await dataProvider(username);
+        const data = await dataProvider(username);
+
+        if (data.result === 'ERROR') {
+          setError(data.error);
+          return;
+        }
+
+        const { ownData, friends } = data;
 
         const ownAvatarUrl = ownData.avatarUrl;
 

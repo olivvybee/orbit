@@ -123,6 +123,23 @@ export const handler: Handler = async (event) => {
       }),
     };
   } catch (error) {
+    if (error.response) {
+      const {
+        status,
+        statusText,
+        config: { url },
+      } = error.response;
+
+      console.error(`Error ${status} fetching URL ${url} - ${statusText}`);
+      return {
+        statusCode: 500,
+        body: JSON.stringify({
+          status,
+          statusText,
+        }),
+      };
+    }
+
     console.error(error);
     return { statusCode: 500, body: error.toString() };
   }
