@@ -34,8 +34,8 @@ export const Homepage = () => {
         shouldNavigate = false;
       }
     } catch (error) {
-      setRateLimitResetTime(undefined);
-      console.error(error);
+      const estimatedResetTime = new Date(now + 15 * 60 * 1000).getTime();
+      setRateLimitResetTime(estimatedResetTime);
       shouldNavigate = false;
     }
 
