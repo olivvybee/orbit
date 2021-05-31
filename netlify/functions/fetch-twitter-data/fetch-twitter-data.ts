@@ -128,14 +128,19 @@ export const handler: Handler = async (event) => {
         status,
         statusText,
         config: { url },
+        headers,
       } = error.response;
 
       console.error(`Error ${status} fetching URL ${url} - ${statusText}`);
+
+      const rateLimitResetTime = Number(headers['x-rate-limit-reset']) * 1000;
+
       return {
         statusCode: 500,
         body: JSON.stringify({
           status,
           statusText,
+          rateLimitResetTime,
         }),
       };
     }

@@ -27,9 +27,17 @@ export const TwitterDataProvider: DataProvider = async (username: string) => {
       }
 
       if (status === 429) {
+        const { rateLimitResetTime } = error.response.data;
+
+        const now = new Date().getTime();
+        const minutesUntilRefresh = Math.ceil(
+          (rateLimitResetTime - now) / (60 * 1000)
+        );
+        const minutesUnit = minutesUntilRefresh === 1 ? 'minute' : 'minutes';
+
         return {
           result: 'ERROR',
-          error: 'Orbit is overloaded. Please try again in a few minutes.',
+          error: `Orbit is overloaded. Twitter limits the number of requests the app can make. The limit will reset in ${minutesUntilRefresh} ${minutesUnit}.`,
         };
       }
 
