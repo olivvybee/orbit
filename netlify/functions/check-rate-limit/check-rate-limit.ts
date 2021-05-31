@@ -46,12 +46,10 @@ export const handler: Handler = async (event) => {
     const resetTime =
       Math.max(userLookupsReset, likesLookupsReset, tweetsLookupsReset) * 1000;
 
-    console.log({
-      userLookupsRemaining,
-      likesLookupsRemaining,
-      tweetsLookupsRemaining,
-      resetTime,
-    });
+    const resetDate = new Date(resetTime);
+    console.log(
+      `users: ${userLookupsRemaining}, likes: ${likesLookupsRemaining}, tweets: ${tweetsLookupsRemaining}, reset at ${resetDate.toISOString()}`
+    );
 
     return { statusCode: 200, body: JSON.stringify({ available, resetTime }) };
   } catch (error) {
