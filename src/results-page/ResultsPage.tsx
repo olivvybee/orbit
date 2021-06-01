@@ -19,10 +19,10 @@ const ResultsPage = () => {
   const { circles } = useContext(Settings);
 
   const layout = useMemo(() => calculateLayout(circles), [circles]);
-  const itemDistribution = useMemo(() => distributeItems(friends, circles), [
-    friends,
-    circles,
-  ]);
+  const itemDistribution = useMemo(
+    () => distributeItems(friends, circles),
+    [friends, circles]
+  );
 
   const stageRef = useRef<Stage>(null);
 
@@ -69,6 +69,18 @@ const ResultsPage = () => {
             onClick={exportImage}>
             Download image
           </button>
+
+          <div className='border border-primary p-3 rounded-3 mb-4'>
+            Orbit is run by a single person. If you like the app, please
+            consider{' '}
+            <a
+              href='https://ko-fi.com/olivvysaur'
+              target='_blank'
+              rel='noreferrer'>
+              buying her a coffee
+            </a>
+            .
+          </div>
 
           <div className='w-100 accordion'>
             <Configurator />
