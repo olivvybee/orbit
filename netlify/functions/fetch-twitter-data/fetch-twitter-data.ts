@@ -134,9 +134,12 @@ export const handler: Handler = async (event) => {
       console.error(`Error ${status} fetching URL ${url} - ${statusText}`);
 
       const rateLimitResetTime = Number(headers['x-rate-limit-reset']) * 1000;
-      console.log(
-        `Rate limit resets at ${new Date(rateLimitResetTime).toISOString()}`
-      );
+
+      if (status === 429) {
+        console.log(
+          `Rate limit resets at ${new Date(rateLimitResetTime).toISOString()}`
+        );
+      }
 
       return {
         statusCode: 500,
