@@ -1,8 +1,19 @@
 import axios from 'axios';
 
-import { DataProvider } from './interfaces';
+import { DataProvider, DataProviderResult } from './interfaces';
+
+const LOCAL_STORAGE_KEY = 'orbitRateLimitReset';
 
 export const TwitterDataProvider: DataProvider = async (username: string) => {
+  const now = new Date().getTime();
+  const storedRateLimitResetTime = Number(
+    window.localStorage.getItem(LOCAL_STORAGE_KEY) || 0
+  );
+
+  if (now < storedRateLimitResetTime) {
+    return getRateLimitError(now, storedRateLimitResetTime);
+  }
+
   try {
     const response = await axios.get(
       `/.netlify/functions/fetch-twitter-data?username=${username}`
@@ -29,16 +40,10 @@ export const TwitterDataProvider: DataProvider = async (username: string) => {
       if (status === 429) {
         const { rateLimitResetTime } = error.response.data;
 
-        const now = new Date().getTime();
-        const minutesUntilRefresh = Math.ceil(
-          (rateLimitResetTime - now) / (60 * 1000)
-        );
-        const minutesUnit = minutesUntilRefresh === 1 ? 'minute' : 'minutes';
+        window.localStorage.setItem('orbitRateLimitReset', rateLimitResetTime);
 
-        return {
-          result: 'ERROR',
-          error: `Orbit is overloaded. Twitter limits the number of requests the app can make. The limit will reset in ${minutesUntilRefresh} ${minutesUnit}.`,
-        };
+        const now = new Date().getTime();
+        return getRateLimitError(now, rateLimitResetTime);
       }
 
       return {
@@ -52,4 +57,19 @@ export const TwitterDataProvider: DataProvider = async (username: string) => {
       error: 'Unable to contact twitter.',
     };
   }
+};
+
+const getRateLimitError = (
+  timeNow: number,
+  rateLimitResetTime: number
+): DataProviderResult => {
+  const minutesUntilRefresh = Math.ceil(
+    (rateLimitResetTime - timeNow) / (60 * 1000)
+  );
+  const minutesUnit = minutesUntilRefresh === 1 ? 'minute' : 'minutes';
+
+  return {
+    result: 'ERROR',
+    error: `Orbit is overloaded. Twitter limits the number of requests the app can make. The limit will reset in ${minutesUntilRefresh} ${minutesUnit}.`,
+  };
 };
