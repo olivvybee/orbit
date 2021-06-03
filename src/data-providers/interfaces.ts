@@ -16,4 +16,7 @@ interface ErrorData {
 
 export type DataProviderResult = LoadedData | ErrorData;
 
-export type DataProvider = (username: string) => Promise<DataProviderResult>;
+export type DataProvider = (
+  username: string,
+  params?: { [key: string]: any }
+) => Promise<DataProviderResult>;

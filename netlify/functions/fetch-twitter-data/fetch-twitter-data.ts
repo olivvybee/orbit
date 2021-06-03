@@ -23,6 +23,7 @@ const headers = {
 export const handler: Handler = async (event) => {
   try {
     const username = event.queryStringParameters.username.toLowerCase();
+    const ignoreLikes = event.queryStringParameters.ignoreLikes === '1';
 
     const userResponse = await axios.get(`${USER_ENDPOINT}${username}`, {
       headers,
@@ -43,7 +44,7 @@ export const handler: Handler = async (event) => {
     let usersData = [];
 
     const [likes, tweets] = await Promise.all([
-      fetchLikes(username),
+      ignoreLikes ? Promise.resolve([]) : fetchLikes(username),
       fetchTweets(username),
     ]);
 

@@ -4,7 +4,7 @@ import { DataProvider, DataProviderResult } from './interfaces';
 
 const LOCAL_STORAGE_KEY = 'orbitRateLimitReset';
 
-export const TwitterDataProvider: DataProvider = async (username: string) => {
+export const TwitterDataProvider: DataProvider = async (username, params) => {
   const now = new Date().getTime();
   const storedRateLimitResetTime = Number(
     window.localStorage.getItem(LOCAL_STORAGE_KEY) || 0
@@ -15,8 +15,11 @@ export const TwitterDataProvider: DataProvider = async (username: string) => {
   }
 
   try {
+    const ignoreLikesParam =
+      params && params.ignoreLikes ? '&ignoreLikes=1' : '';
+
     const response = await axios.get(
-      `/.netlify/functions/fetch-twitter-data?username=${username}`
+      `/.netlify/functions/fetch-twitter-data?username=${username}${ignoreLikesParam}`
     );
 
     const { ownData, friends } = response.data;

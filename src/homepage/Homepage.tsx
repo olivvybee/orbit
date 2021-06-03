@@ -3,6 +3,8 @@ import { useHistory } from 'react-router-dom';
 
 export const Homepage = () => {
   const [username, setUsername] = useState<string>('');
+  const [ignoreLikes, setIgnoreLikes] = useState<boolean>(false);
+
   const history = useHistory();
 
   const canGenerate = !!username && username.length > 0;
@@ -15,7 +17,7 @@ export const Homepage = () => {
     const santisedUsername = username.startsWith('@')
       ? username.slice(1)
       : username;
-    history.push(`/twitter/${santisedUsername}`);
+    history.push(`/twitter/${santisedUsername}?ignoreLikes=${ignoreLikes}`);
   };
 
   return (
@@ -24,7 +26,7 @@ export const Homepage = () => {
         <h1>Orbit</h1>
         <span className='fs-3'>See who's in your twitter orbit</span>
 
-        <div className='mt-4 mb-5 d-flex align-items-end w-100'>
+        <div className='mt-4 mb-3 d-flex align-items-end w-100'>
           <div className='flex-fill'>
             <label className='form-label' htmlFor='twitter-username'>
               Twitter username
@@ -54,6 +56,23 @@ export const Homepage = () => {
             Create
           </button>
         </div>
+
+        <div className='form-check form-switch'>
+          <input
+            className='form-check-input'
+            type='checkbox'
+            id='likes-switch'
+            checked={ignoreLikes}
+            onChange={(e) => setIgnoreLikes(e.target.checked)}
+          />
+          <label className='form-check-label' htmlFor='likes-switch'>
+            Ignore likes
+          </label>
+        </div>
+        <small className='form-text'>
+          Ignoring likes might make your circles less accurate, but there is
+          more chance of getting a slot instead of having to wait.
+        </small>
       </div>
 
       <div className='mt-5 col-10 col-lg-6'>

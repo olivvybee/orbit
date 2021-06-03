@@ -7,13 +7,14 @@ import { DataFetcherProps } from './interfaces';
 export const DataFetcher: React.FC<DataFetcherProps> = ({
   username,
   dataProvider,
+  params,
 }) => {
   const { setOwnAvatarImg, setFriends, setError } = useContext(FriendList);
 
   useEffect(() => {
     const fetch = async () => {
       try {
-        const data = await dataProvider(username);
+        const data = await dataProvider(username, params);
 
         if (data.result === 'ERROR') {
           setError(data.error);
@@ -71,7 +72,7 @@ export const DataFetcher: React.FC<DataFetcherProps> = ({
     };
 
     fetch();
-  }, [dataProvider, username, setFriends, setOwnAvatarImg, setError]);
+  }, [dataProvider, username, setFriends, setOwnAvatarImg, setError, params]);
 
   return null;
 };
