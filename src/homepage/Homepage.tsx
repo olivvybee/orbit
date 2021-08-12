@@ -140,13 +140,13 @@ export const Homepage = () => {
             className='fw-bold'
             target='_blank'
             rel='noreferrer'
-            href='https://twitter.com/olivvysaur'>
-            @olivvysaur
+            href='https://twitter.com/olivvybee'>
+            @olivvybee
           </a>{' '}
           out of frustration that other twitter circle generators weren't
           customisable. If you like it, maybe{' '}
           <a
-            href='https://ko-fi.com/olivvysaur'
+            href='https://ko-fi.com/olivvybee'
             target='_blank'
             rel='noreferrer'>
             buy her a coffee
