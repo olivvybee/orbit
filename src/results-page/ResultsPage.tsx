@@ -74,7 +74,7 @@ const ResultsPage = () => {
             Orbit is run by a single person. If you like the app, please
             consider{' '}
             <a
-              href='https://ko-fi.com/olivvysaur'
+              href='https://ko-fi.com/olivvybee'
               target='_blank'
               rel='noreferrer'>
               buying her a coffee
