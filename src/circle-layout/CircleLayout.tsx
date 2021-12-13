@@ -8,19 +8,27 @@ import Circle from './Circle';
 
 import { CANVAS_SIZE, CENTER_RADIUS } from './constants';
 import { CircleLayoutProps } from './interfaces';
+import { useDimensions } from '../hooks/useDimensions';
 
 const CircleLayout: React.FC<CircleLayoutProps> = ({
   layout,
   itemDistribution,
   stageRef,
+  onPressPerson,
 }) => {
   const { ownAvatarImg } = useContext(FriendList);
   const { colours } = useContext(Settings);
+
+  const [wrapperRef, wrapperDimensions] = useDimensions<HTMLDivElement>();
 
   if (!ownAvatarImg) {
     console.log('Own avatar image missing');
     return null;
   }
+
+  const stageScale = wrapperDimensions
+    ? wrapperDimensions.width / CANVAS_SIZE
+    : 1;
 
   const scaleX = (2 * CENTER_RADIUS) / ownAvatarImg.naturalWidth;
   const scaleY = (2 * CENTER_RADIUS) / ownAvatarImg.naturalHeight;
@@ -29,8 +37,12 @@ const CircleLayout: React.FC<CircleLayoutProps> = ({
   const watermarkColour = backgroundColour.isLight() ? '#282c34' : '#ffffff';
 
   return (
-    <div id='circle-layout'>
-      <Stage width={CANVAS_SIZE} height={CANVAS_SIZE} ref={stageRef}>
+    <div id='circle-layout' ref={wrapperRef}>
+      <Stage
+        width={CANVAS_SIZE * stageScale}
+        height={CANVAS_SIZE * stageScale}
+        scale={{ x: stageScale, y: stageScale }}
+        ref={stageRef}>
         <Layer>
           <Rect
             x={0}
@@ -58,6 +70,7 @@ const CircleLayout: React.FC<CircleLayoutProps> = ({
               items={itemDistribution[circleIndex]}
               borderColour={colours.circleBorders}
               connectingLineColour={colours.connectingLines}
+              onPressPerson={onPressPerson}
             />
           ))}
           <Text

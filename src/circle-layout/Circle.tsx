@@ -19,6 +19,7 @@ const Circle: React.FC<CircleProps> = ({
   items,
   borderColour,
   connectingLineColour,
+  onPressPerson,
 }) => {
   const { radius, itemRadius, itemPositions } = layout;
 
@@ -30,6 +31,7 @@ const Circle: React.FC<CircleProps> = ({
         y={CANVAS_SIZE / 2}
         stroke={connectingLineColour}
         strokeWidth={1}
+        listening={false}
       />
 
       {items.map((item, index) => {
@@ -62,6 +64,8 @@ const Circle: React.FC<CircleProps> = ({
             fillPatternOffsetY={itemRadius}
             fillPatternScaleX={scaleX}
             fillPatternScaleY={scaleY}
+            onClick={() => onPressPerson(item.id)}
+            onTap={() => onPressPerson(item.id)}
           />
         );
       })}

@@ -14,6 +14,9 @@ interface FriendListShape {
   setOwnAvatarImg: (img: HTMLImageElement) => void;
   friends: Friend[];
   setFriends: (friends: Friend[]) => void;
+  hiddenFriends: Friend[];
+  hideFriend: (friend: Friend) => void;
+  unhideFriends: () => void;
   error?: string;
   setError: (error: string | undefined) => void;
 }
@@ -23,13 +26,22 @@ export const FriendList = createContext<FriendListShape>({
   setOwnAvatarImg: () => {},
   friends: [],
   setFriends: () => {},
+  hiddenFriends: [],
+  hideFriend: () => {},
+  unhideFriends: () => {},
   setError: () => {},
 });
 
 export const FriendListProvider: React.FC = ({ children }) => {
   const [ownAvatarImg, setOwnAvatarImg] = useState<HTMLImageElement>();
   const [friends, setFriends] = useState<Friend[]>([]);
+  const [hiddenFriends, setHiddenFriends] = useState<Friend[]>([]);
   const [error, setError] = useState<string>();
+
+  const hideFriend = (friend: Friend) =>
+    setHiddenFriends([...hiddenFriends, friend]);
+
+  const unhideFriends = () => setHiddenFriends([]);
 
   return (
     <FriendList.Provider
@@ -38,6 +50,9 @@ export const FriendListProvider: React.FC = ({ children }) => {
         setOwnAvatarImg,
         friends,
         setFriends,
+        hiddenFriends,
+        hideFriend,
+        unhideFriends,
         error,
         setError,
       }}>

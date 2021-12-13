@@ -11,6 +11,7 @@ export interface CircleLayoutProps {
   layout: CircleLayout[];
   itemDistribution: Friend[][];
   stageRef: React.LegacyRef<Stage>;
+  onPressPerson: (id: string) => void;
 }
 
 export interface CircleLayout {
@@ -24,4 +25,5 @@ export interface CircleProps {
   items: Friend[];
   borderColour: string;
   connectingLineColour: string;
+  onPressPerson: (id: string) => void;
 }

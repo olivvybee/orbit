@@ -13,16 +13,30 @@ import { ErrorScreen } from '../error-screen';
 import { EXPORT_FILE_NAME } from './constants';
 
 import './ResultsPage.css';
+import { CANVAS_SIZE } from '../circle-layout/constants';
 
 const ResultsPage = () => {
-  const { friends, error } = useContext(FriendList);
+  const { friends, hiddenFriends, hideFriend, unhideFriends, error } =
+    useContext(FriendList);
   const { circles } = useContext(Settings);
+
+  const visibleFriends = friends.filter(
+    (friend) =>
+      !hiddenFriends.some((hiddenFriend) => hiddenFriend.id === friend.id)
+  );
 
   const layout = useMemo(() => calculateLayout(circles), [circles]);
   const itemDistribution = useMemo(
-    () => distributeItems(friends, circles),
-    [friends, circles]
+    () => distributeItems(visibleFriends, circles),
+    [visibleFriends, circles]
   );
+
+  const onPressPerson = (id: string) => {
+    const friendToHide = friends.find((friend) => friend.id === id);
+    if (friendToHide) {
+      hideFriend(friendToHide);
+    }
+  };
 
   const stageRef = useRef<Stage>(null);
 
@@ -31,6 +45,13 @@ const ResultsPage = () => {
       return;
     }
 
+    const prevSize = stageRef.current.width();
+    const prevScale = stageRef.current.scale();
+
+    stageRef.current.width(CANVAS_SIZE);
+    stageRef.current.height(CANVAS_SIZE);
+    stageRef.current.scale({ x: 1, y: 1 });
+
     const url = stageRef.current.toDataURL();
     const a = document.createElement('a');
     a.download = EXPORT_FILE_NAME;
@@ -38,6 +59,11 @@ const ResultsPage = () => {
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
+
+    stageRef.current.width(prevSize);
+    stageRef.current.height(prevSize);
+    stageRef.current.scale(prevScale);
+    stageRef.current.drawScene();
   };
 
   if (error) {
@@ -57,18 +83,29 @@ const ResultsPage = () => {
               layout={layout}
               itemDistribution={itemDistribution}
               stageRef={stageRef}
+              onPressPerson={onPressPerson}
             />
           </div>
         </div>
 
         <div className='col-md-4 d-flex flex-column align-items-center'>
-          <button
-            type='button'
-            id='export-button'
-            className='btn btn-primary'
-            onClick={exportImage}>
-            Download image
-          </button>
+          <div className='d-flex flex-row align-items-center mb-4'>
+            <button
+              type='button'
+              id='reset-button'
+              className='btn btn-primary me-4'
+              onClick={unhideFriends}>
+              Reset
+            </button>
+
+            <button
+              type='button'
+              id='export-button'
+              className='btn btn-primary'
+              onClick={exportImage}>
+              Download image
+            </button>
+          </div>
 
           <div className='border border-primary p-3 rounded-3 mb-4'>
             Orbit is run by a single person. If you like the app, please

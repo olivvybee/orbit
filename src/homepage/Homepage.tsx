@@ -26,6 +26,13 @@ export const Homepage = () => {
         <h1>Orbit</h1>
         <span className='fs-3'>See who's in your twitter orbit</span>
 
+        <div className='border border-primary p-3 rounded-3 mt-5'>
+          <strong>New!</strong>
+          <br />
+          If your circles contain unwanted accounts, you can now remove them by
+          clicking or tapping on them in the image.
+        </div>
+
         <div className='mt-4 mb-3 d-flex align-items-end w-100'>
           <div className='flex-fill'>
             <label className='form-label' htmlFor='twitter-username'>
