@@ -21,31 +21,31 @@ export const Homepage = () => {
   };
 
   return (
-    <div className='container d-flex flex-column align-items-center'>
-      <div className='col-10 col-lg-6'>
+    <div className="container d-flex flex-column align-items-center">
+      <div className="col-10 col-lg-6">
         <h1>Orbit</h1>
-        <span className='fs-3'>See who's in your twitter orbit</span>
+        <span className="fs-3">See who's in your twitter orbit</span>
 
-        <div className='border border-primary p-3 rounded-3 mt-5'>
+        <div className="border border-primary p-3 rounded-3 mt-5">
           <strong>New!</strong>
           <br />
           If your circles contain unwanted accounts, you can now remove them by
           clicking or tapping on them in the image.
         </div>
 
-        <div className='mt-4 mb-3 d-flex align-items-end w-100'>
-          <div className='flex-fill'>
-            <label className='form-label' htmlFor='twitter-username'>
+        <div className="mt-4 mb-3 d-flex align-items-end w-100">
+          <div className="flex-fill">
+            <label className="form-label" htmlFor="twitter-username">
               Twitter username
             </label>
             <input
-              className='form-control'
-              id='twitter-username'
-              placeholder='@somebody'
-              autoComplete='off'
-              autoCapitalize='off'
-              autoCorrect='off'
-              spellCheck='false'
+              className="form-control"
+              id="twitter-username"
+              placeholder="@somebody"
+              autoComplete="off"
+              autoCapitalize="off"
+              autoCorrect="off"
+              spellCheck="false"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               onKeyPress={(e) => {
@@ -56,33 +56,33 @@ export const Homepage = () => {
             />
           </div>
           <button
-            className='btn btn-primary ms-2'
-            type='button'
+            className="btn btn-primary ms-2"
+            type="button"
             onClick={goToResults}
             disabled={!canGenerate}>
             Create
           </button>
         </div>
 
-        <div className='form-check form-switch'>
+        <div className="form-check form-switch">
           <input
-            className='form-check-input'
-            type='checkbox'
-            id='likes-switch'
+            className="form-check-input"
+            type="checkbox"
+            id="likes-switch"
             checked={ignoreLikes}
             onChange={(e) => setIgnoreLikes(e.target.checked)}
           />
-          <label className='form-check-label' htmlFor='likes-switch'>
+          <label className="form-check-label" htmlFor="likes-switch">
             Ignore likes
           </label>
         </div>
-        <small className='form-text'>
+        <small className="form-text">
           Ignoring likes might make your circles less accurate, but there is
           more chance of getting a slot instead of having to wait.
         </small>
       </div>
 
-      <div className='mt-5 col-10 col-lg-6'>
+      <div className="mt-5 col-10 col-lg-6">
         <h2>How does it work?</h2>
         <p>
           Orbit uses <strong>publicly available</strong> twitter data to
@@ -94,11 +94,11 @@ export const Homepage = () => {
           counts the number of interactions you've had with each person and
           assigns them a score.
         </p>
-        <table className='table table-sm'>
+        <table className="table table-sm">
           <thead>
             <tr>
-              <th scope='col'>Interaction</th>
-              <th scope='col'>Score</th>
+              <th scope="col">Interaction</th>
+              <th scope="col">Score</th>
             </tr>
           </thead>
           <tbody>
@@ -125,16 +125,22 @@ export const Homepage = () => {
           scores closer to the inner circle.
         </p>
         <p>
-          It's important to note that{' '}
-          <strong>
-            people who mention you or like your tweets are not counted
-          </strong>
-          . That information would require you to log in. Orbit only uses{' '}
-          <strong>your</strong> tweets and likes.
+          It's important to note that orbit uses{' '}
+          <strong>your interactions</strong>
+          to calculate the circles. That means it uses people you mention, like,
+          and retweet. People who mention you or like your tweets aren't counted
+          because orbit doesn't have access to that information.
         </p>
         <p>
           Orbit also <strong>can't see private (locked) accounts</strong>, so
           they won't appear in your circles.
+        </p>
+        <p>
+          The list of <strong>people you've blocked</strong> also isn't public,
+          so orbit will <strong>still show them in your circles</strong> since
+          it doesn't know they're blocked. You can hide any account from your
+          circles by clicking or tapping on them. Hidden accounts are saved in
+          your browser so you don't need to hide them again next time.
         </p>
         <p>
           Once your data has loaded, you are free to adjust the layout by
@@ -144,18 +150,18 @@ export const Homepage = () => {
         <p>
           Orbit was created by{' '}
           <a
-            className='fw-bold'
-            target='_blank'
-            rel='noreferrer'
-            href='https://twitter.com/olivvybee'>
+            className="fw-bold"
+            target="_blank"
+            rel="noreferrer"
+            href="https://twitter.com/olivvybee">
             @olivvybee
           </a>{' '}
           out of frustration that other twitter circle generators weren't
           customisable. If you like it, maybe{' '}
           <a
-            href='https://ko-fi.com/olivvybee'
-            target='_blank'
-            rel='noreferrer'>
+            href="https://ko-fi.com/olivvybee"
+            target="_blank"
+            rel="noreferrer">
             buy her a coffee
           </a>
           .
