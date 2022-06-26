@@ -119,10 +119,10 @@ export const Homepage = () => {
         </p>
         <p>
           It's important to note that orbit uses{' '}
-          <strong>your interactions</strong>
-          to calculate the circles. That means it uses people you mention, like,
-          and retweet. People who mention you or like your tweets aren't counted
-          because orbit doesn't have access to that information.
+          <strong>your interactions</strong> to calculate the circles. That
+          means it uses people you mention, like, and retweet. People who
+          mention you or like your tweets aren't counted because orbit doesn't
+          have access to that information.
         </p>
         <p>
           Orbit also <strong>can't see private (locked) accounts</strong>, so
