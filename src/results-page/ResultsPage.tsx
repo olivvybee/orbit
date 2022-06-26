@@ -22,7 +22,7 @@ const ResultsPage = () => {
 
   const visibleFriends = friends.filter(
     (friend) =>
-      !hiddenFriends.some((hiddenFriend) => hiddenFriend.id === friend.id)
+      !hiddenFriends.some((hiddenFriend) => hiddenFriend === friend.id)
   );
 
   const layout = useMemo(() => calculateLayout(circles), [circles]);
@@ -75,10 +75,10 @@ const ResultsPage = () => {
   }
 
   return (
-    <div className='container-md' id='results-page'>
-      <div className='row gy-4'>
-        <div className='col '>
-          <div id='results-wrapper'>
+    <div className="container-md" id="results-page">
+      <div className="row gy-4">
+        <div className="col ">
+          <div id="results-wrapper">
             <CircleLayout
               layout={layout}
               itemDistribution={itemDistribution}
@@ -88,38 +88,38 @@ const ResultsPage = () => {
           </div>
         </div>
 
-        <div className='col-md-4 d-flex flex-column align-items-center'>
-          <div className='d-flex flex-row align-items-center mb-4'>
+        <div className="col-md-4 d-flex flex-column align-items-center">
+          <div className="d-flex flex-row align-items-center mb-4">
             <button
-              type='button'
-              id='reset-button'
-              className='btn btn-primary me-4'
+              type="button"
+              id="reset-button"
+              className="btn btn-primary me-4"
               onClick={unhideFriends}>
-              Reset
+              Unhide all
             </button>
 
             <button
-              type='button'
-              id='export-button'
-              className='btn btn-primary'
+              type="button"
+              id="export-button"
+              className="btn btn-primary"
               onClick={exportImage}>
               Download image
             </button>
           </div>
 
-          <div className='border border-primary p-3 rounded-3 mb-4'>
+          <div className="border border-primary p-3 rounded-3 mb-4">
             Orbit is run by a single person. If you like the app, please
             consider{' '}
             <a
-              href='https://ko-fi.com/olivvybee'
-              target='_blank'
-              rel='noreferrer'>
+              href="https://ko-fi.com/olivvybee"
+              target="_blank"
+              rel="noreferrer">
               buying her a coffee
             </a>
             .
           </div>
 
-          <div className='w-100 accordion'>
+          <div className="w-100 accordion">
             <Configurator />
             <ResultDetails itemDistribution={itemDistribution} />
           </div>

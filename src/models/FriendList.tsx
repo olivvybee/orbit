@@ -1,4 +1,5 @@
 import { createContext, useState } from 'react';
+import { useLocalStorage } from '../hooks/useLocalStorage';
 
 export interface Friend {
   id: string;
@@ -14,7 +15,7 @@ interface FriendListShape {
   setOwnAvatarImg: (img: HTMLImageElement) => void;
   friends: Friend[];
   setFriends: (friends: Friend[]) => void;
-  hiddenFriends: Friend[];
+  hiddenFriends: string[];
   hideFriend: (friend: Friend) => void;
   unhideFriends: () => void;
   error?: string;
@@ -35,11 +36,14 @@ export const FriendList = createContext<FriendListShape>({
 export const FriendListProvider: React.FC = ({ children }) => {
   const [ownAvatarImg, setOwnAvatarImg] = useState<HTMLImageElement>();
   const [friends, setFriends] = useState<Friend[]>([]);
-  const [hiddenFriends, setHiddenFriends] = useState<Friend[]>([]);
+  const [hiddenFriends, setHiddenFriends] = useLocalStorage<string[]>(
+    'orbitHiddenIDs',
+    []
+  );
   const [error, setError] = useState<string>();
 
   const hideFriend = (friend: Friend) =>
-    setHiddenFriends([...hiddenFriends, friend]);
+    setHiddenFriends([...hiddenFriends, friend.id]);
 
   const unhideFriends = () => setHiddenFriends([]);
 
