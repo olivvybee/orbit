@@ -12,7 +12,7 @@ functions:
   fetch-twitter-data:
     handler: fetch-twitter-data.handler
     timeout: 10
-    memorySize: 256
+    memorySize: 128
     environment:
       TWITTER_BEARER_TOKEN: ${ssm:/orbit/twitter-bearer-token}
     events:
