@@ -2,6 +2,8 @@ import axios from 'axios';
 
 import { DataProvider, DataProviderResult } from './interfaces';
 
+const API_URL =
+  'https://p7xbt3z3zk.execute-api.eu-west-2.amazonaws.com/fetch-twitter-data';
 const LOCAL_STORAGE_KEY = 'orbitRateLimitReset';
 
 export const TwitterDataProvider: DataProvider = async (username, params) => {
@@ -19,7 +21,7 @@ export const TwitterDataProvider: DataProvider = async (username, params) => {
       params && params.ignoreLikes ? '&ignoreLikes=1' : '';
 
     const response = await axios.get(
-      `/.netlify/functions/fetch-twitter-data?username=${username}${ignoreLikesParam}`
+      `${API_URL}?username=${username}${ignoreLikesParam}`
     );
 
     const { ownData, friends } = response.data;
@@ -29,7 +31,7 @@ export const TwitterDataProvider: DataProvider = async (username, params) => {
       ownData,
       friends,
     };
-  } catch (error) {
+  } catch (error: any) {
     if (error.response && error.response.data.status) {
       const { status } = error.response.data;
 
