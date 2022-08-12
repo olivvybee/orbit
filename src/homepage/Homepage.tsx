@@ -125,8 +125,8 @@ export const Homepage = () => {
           have access to that information.
         </p>
         <p>
-          Orbit also <strong>can't see private (locked) accounts</strong>, so
-          they won't appear in your circles.
+          If your account is locked, you won't be able to use orbit because
+          information about who you've interacted with is private.
         </p>
         <p>
           The list of <strong>people you've blocked</strong> also isn't public,

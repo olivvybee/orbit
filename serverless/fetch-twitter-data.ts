@@ -105,7 +105,7 @@ export const fetchTwitterData = async (event: Event) => {
     usersData = usersData.concat(mentionedUsers);
 
     const uniqueUsers = _uniqBy(usersData, 'id').filter(
-      (user) => !user.private && user.username.toLowerCase() !== username
+      (user) => user.username.toLowerCase() !== username
     );
 
     const friendsWithScores = uniqueUsers.map((user) => {
