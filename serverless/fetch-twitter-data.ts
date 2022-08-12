@@ -34,7 +34,7 @@ interface Event {
 export const fetchTwitterData = async (event: Event) => {
   try {
     const username = event.queryStringParameters.username?.toLowerCase() || '';
-    const ignoreLikes = event.queryStringParameters.ignoreLikes === '1';
+    const ignoreLikes = event.queryStringParameters.ignoreLikes === 'true';
 
     const userResponse = await axios.get(`${USER_ENDPOINT}${username}`, {
       headers,
