@@ -3,7 +3,9 @@ import axios from 'axios';
 import { DataProvider, DataProviderResult } from './interfaces';
 
 const API_URL =
-  'https://p7xbt3z3zk.execute-api.eu-west-2.amazonaws.com/fetch-twitter-data';
+  process.env.NODE_ENV === 'development'
+    ? 'http://localhost:5050/fetch-twitter-data'
+    : 'https://p7xbt3z3zk.execute-api.eu-west-2.amazonaws.com/fetch-twitter-data';
 const LOCAL_STORAGE_KEY = 'orbitRateLimitReset';
 
 export const TwitterDataProvider: DataProvider = async (username, params) => {
