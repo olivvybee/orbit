@@ -7,7 +7,7 @@ import _countBy from 'lodash/countBy';
 import _orderBy from 'lodash/orderBy';
 import _chunk from 'lodash/chunk';
 
-export const MAX_TWEETS_ITERATIONS = 5;
+export const MAX_TWEETS_ITERATIONS = 3;
 export const MAX_LIKES_ITERATIONS = 1;
 export const MAX_USERS_ITERATIONS = 3;
 
@@ -171,6 +171,7 @@ export const fetchTwitterData = async (event: Event) => {
 const fetchLikes = async (username: string) => {
   let likes: any[] = [];
   let previousId = undefined;
+
   for (let i = 0; i < MAX_LIKES_ITERATIONS; i++) {
     let url = `${LIKES_ENDPOINT}${username}`;
     if (previousId) {
@@ -189,6 +190,7 @@ const fetchLikes = async (username: string) => {
     likes = likes.concat(likesResponse.data);
     previousId = lowestId;
   }
+
   return likes.filter(
     (tweet) => tweet.user.screen_name.toLowerCase() !== username
   );
@@ -197,6 +199,7 @@ const fetchLikes = async (username: string) => {
 const fetchTweets = async (username: string) => {
   let tweets: any[] = [];
   let previousId = undefined;
+
   for (let i = 0; i < MAX_TWEETS_ITERATIONS; i++) {
     let url = `${TWEETS_ENDPOINT}${username}`;
     if (previousId) {
@@ -215,6 +218,7 @@ const fetchTweets = async (username: string) => {
     tweets = tweets.concat(tweetsResponse.data);
     previousId = lowestId;
   }
+
   return tweets;
 };
 
