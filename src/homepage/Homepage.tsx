@@ -1,195 +1,44 @@
-import { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+export const Homepage = () => (
+  <div className="container d-flex flex-column align-items-center">
+    <div className="col-10 col-lg-6">
+      <h1>Orbit</h1>
+      <span className="fs-3">See who's in your twitter orbit</span>
 
-export const Homepage = () => {
-  const [username, setUsername] = useState<string>('');
-  const [ignoreLikes, setIgnoreLikes] = useState<boolean>(false);
-
-  const history = useHistory();
-
-  const canGenerate = !!username && username.length > 0;
-
-  const goToResults = async () => {
-    if (!username) {
-      return;
-    }
-
-    const santisedUsername = username.startsWith('@')
-      ? username.slice(1)
-      : username;
-    history.push(`/twitter/${santisedUsername}?ignoreLikes=${ignoreLikes}`);
-  };
-
-  return (
-    <div className="container d-flex flex-column align-items-center">
-      <div className="col-10 col-lg-6">
-        <h1>Orbit</h1>
-        <span className="fs-3">See who's in your twitter orbit</span>
-
-        <div className="border border-primary p-3 rounded-3 mt-5">
-          <strong>Orbit is closing down</strong>
-          <br />
-          Twitter has made{' '}
-          <a
-            href="https://twitter.com/TwitterDev/status/1621026986784337922"
-            target="_blank"
-            rel="noreferrer">
-            an announcement
-          </a>{' '}
-          that access to its API, which powers orbit, will no longer be free as
-          of February 9.
-          <br />
-          Orbit doesn't make enough money to cover costs, so I cannot keep it
-          going if the API is no longer free. Therefore orbit will be shut down
-          on February 8, before the API becomes unusable.
-          <br />
-          Thank you for using orbit, and extra thanks if you are one of the
-          people who ever{' '}
-          <a
-            href="https://ko-fi.com/olivvybee"
-            target="_blank"
-            rel="noreferrer">
-            donated
-          </a>
-          .
-        </div>
-
-        <div className="mt-4 mb-3 d-flex align-items-end w-100">
-          <div className="flex-fill">
-            <label className="form-label" htmlFor="twitter-username">
-              Twitter username
-            </label>
-            <input
-              className="form-control"
-              id="twitter-username"
-              placeholder="@somebody"
-              autoComplete="off"
-              autoCapitalize="off"
-              autoCorrect="off"
-              spellCheck="false"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              onKeyPress={(e) => {
-                if (canGenerate && e.key === 'Enter') {
-                  goToResults();
-                }
-              }}
-            />
-          </div>
-          <button
-            className="btn btn-primary ms-2"
-            type="button"
-            onClick={goToResults}
-            disabled={!canGenerate}>
-            Create
-          </button>
-        </div>
-
-        <div className="form-check form-switch">
-          <input
-            className="form-check-input"
-            type="checkbox"
-            id="likes-switch"
-            checked={ignoreLikes}
-            onChange={(e) => setIgnoreLikes(e.target.checked)}
-          />
-          <label className="form-check-label" htmlFor="likes-switch">
-            Ignore likes
-          </label>
-        </div>
-        <small className="form-text">
-          Ignoring likes might make your circles less accurate, but there is
-          more chance of getting a slot instead of having to wait.
-        </small>
+      <div className="border border-primary p-3 rounded-3 mt-5 mb-5">
+        <strong>Orbit has closed down</strong>
+        <br />
+        As of February 9, the twitter API, which powered orbit, is no longer
+        free.
+        <br />
+        Orbit doesn't make enough money to cover costs, so I cannot keep it
+        going if the API is no longer free. Therefore orbit had to be shut down.
+        <br />
+        Thank you for using orbit, and extra thanks if you are one of the people
+        who ever{' '}
+        <a href="https://ko-fi.com/olivvybee" target="_blank" rel="noreferrer">
+          donated
+        </a>
+        .
       </div>
 
-      <div className="mt-5 col-10 col-lg-6">
-        <h2>How does it work?</h2>
-        <p>
-          Orbit uses <strong>publicly available</strong> twitter data to
-          determine who you interact with the most. That's why there's{' '}
-          <strong>no need to log in</strong> or provide your password.
-        </p>
-        <p>
-          It fetches a number of your most recent tweets and likes. Then, it
-          counts the number of interactions you've had with each person and
-          assigns them a score.
-        </p>
-        <table className="table table-sm">
-          <thead>
-            <tr>
-              <th scope="col">Interaction</th>
-              <th scope="col">Score</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Like</td>
-              <td>1</td>
-            </tr>
-            <tr>
-              <td>Retweet</td>
-              <td>1</td>
-            </tr>
-            <tr>
-              <td>Quote tweet</td>
-              <td>2</td>
-            </tr>
-            <tr>
-              <td>Mention</td>
-              <td>3</td>
-            </tr>
-          </tbody>
-        </table>
-        <p>
-          People are sorted into circles by their total scores, with higher
-          scores closer to the inner circle.
-        </p>
-        <p>
-          It's important to note that orbit uses{' '}
-          <strong>your interactions</strong> to calculate the circles. That
-          means it uses people you mention, like, and retweet. People who
-          mention you or like your tweets aren't counted because orbit doesn't
-          have access to that information.
-        </p>
-        <p>
-          If your account is locked, you won't be able to use orbit because
-          information about who you've interacted with is private.
-        </p>
-        <p>
-          The list of <strong>people you've blocked</strong> also isn't public,
-          so orbit will <strong>still show them in your circles</strong> since
-          it doesn't know they're blocked. You can hide any account from your
-          circles by clicking or tapping on them. Hidden accounts are saved in
-          your browser so you don't need to hide them again next time.
-        </p>
-        <p>
-          Once your data has loaded, you are free to adjust the layout by
-          changing the number of circles, as well as how many people appear in
-          each circle.
-        </p>
-        <p>
-          Orbit was created by{' '}
-          <a
-            className="fw-bold"
-            target="_blank"
-            rel="noreferrer"
-            href="https://twitter.com/olivvybee">
-            @olivvybee
-          </a>{' '}
-          out of frustration that other twitter circle generators weren't
-          customisable. If you like it, maybe{' '}
-          <a
-            href="https://ko-fi.com/olivvybee"
-            target="_blank"
-            rel="noreferrer">
-            buy her a coffee
-          </a>
-          .
-        </p>
-      </div>
+      <p>
+        Orbit was created by{' '}
+        <a
+          className="fw-bold"
+          target="_blank"
+          rel="noreferrer"
+          href="https://tech.lgbt/@olivvybee">
+          @olivvybee
+        </a>{' '}
+        out of frustration that other twitter circle generators weren't
+        customisable.
+      </p>
+      <p>
+        Now that twitter is determined to become a hostile social media
+        platform, she has moved to Mastodon, and recommends you do as well.
+      </p>
     </div>
-  );
-};
+  </div>
+);
 
 Homepage.displayName = 'Homepage';
