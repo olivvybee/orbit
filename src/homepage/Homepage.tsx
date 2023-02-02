@@ -26,6 +26,34 @@ export const Homepage = () => {
         <h1>Orbit</h1>
         <span className="fs-3">See who's in your twitter orbit</span>
 
+        <div className="border border-primary p-3 rounded-3 mt-5">
+          <strong>Orbit is closing down</strong>
+          <br />
+          Twitter has made{' '}
+          <a
+            href="https://twitter.com/TwitterDev/status/1621026986784337922"
+            target="_blank"
+            rel="noreferrer">
+            an announcement
+          </a>{' '}
+          that access to its API, which powers orbit, will no longer be free as
+          of February 9.
+          <br />
+          Orbit doesn't make enough money to cover costs, so I cannot keep it
+          going if the API is no longer free. Therefore orbit will be shut down
+          on February 8, before the API becomes unusable.
+          <br />
+          Thank you for using orbit, and extra thanks if you are one of the
+          people who ever{' '}
+          <a
+            href="https://ko-fi.com/olivvybee"
+            target="_blank"
+            rel="noreferrer">
+            donated
+          </a>
+          .
+        </div>
+
         <div className="mt-4 mb-3 d-flex align-items-end w-100">
           <div className="flex-fill">
             <label className="form-label" htmlFor="twitter-username">
